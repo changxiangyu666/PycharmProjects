@@ -1,4 +1,4 @@
-#-*-coding:utf-8-*-
+# -*- coding:utf-8 -*-
 
 from project import app, db
 from flask_script import Manager
