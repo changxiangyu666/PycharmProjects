@@ -7,14 +7,15 @@ $(function () {
 
     function fInitialize() {
         var that = this;
-        var sImageId = window.imageId;
+
         var oCmtIpt = $('#js-Cmt');
         var oListDv = $('ul.js-discuss-list');
 
         // 点击添加评论
         var bSubmit = false;
-        $('#jsSubmit').on('click', function() {
+        $('.more-info').on('click', function() {
             var sCmt = $.trim(oCmtIpt.val());
+            var sImageId = this.value;
             // 评论为空不能提交
             if (!sCmt) {
                 return alert('评论不能为空');

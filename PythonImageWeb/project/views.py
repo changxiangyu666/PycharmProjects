@@ -33,8 +33,8 @@ def index_images(page, per_page):
 
 @app.route('/')
 def index():
-    images = Image.query.order_by(db.desc(Image.id)).limit(3).all()
-    paginate = Image.query.order_by(db.desc(Image.id)).paginate(page=1, per_page=3)
+    images = Image.query.order_by(db.desc(Image.id)).limit(5).all()
+    paginate = Image.query.order_by(db.desc(Image.id)).paginate(page=1, per_page=5)
     # images = Image.query.order_by('-id').limit(10).all()
     # images = Image.query.order_by('id desc').limit(10).all()
     return render_template('index.html', image=image, has_next=paginate.has_next, images=paginate.items)
