@@ -25,7 +25,7 @@ $(function () {
             }
             bSubmit = true;
             $.ajax({
-                url: '/addcomment/',
+                url: '/add/comment/',
                 type: 'post',
                 dataType: 'json',
                 data: {image_id: sImageId, content: sCmt}
