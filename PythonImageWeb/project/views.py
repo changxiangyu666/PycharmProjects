@@ -1,4 +1,4 @@
-#-*-coding:utf-8-*-
+# -*- coding:utf-8 -*-
 
 from project import app, db
 from models import Image, User, Comment
@@ -33,10 +33,11 @@ def index_images(page, per_page):
 
 @app.route('/')
 def index():
-    images = Image.query.order_by(db.desc(Image.id)).limit(20).all()
+    images = Image.query.order_by(db.desc(Image.id)).limit(3).all()
+    paginate = Image.query.order_by(db.desc(Image.id)).paginate(page=1, per_page=3)
     # images = Image.query.order_by('-id').limit(10).all()
     # images = Image.query.order_by('id desc').limit(10).all()
-    return render_template('index.html', images=images)
+    return render_template('index.html', image=image, has_next=paginate.has_next, images=paginate.items)
 
 
 @app.route('/image/<int:image_id>/')
@@ -55,7 +56,7 @@ def profile(user_id):
     user = User.query.get(user_id)
     if user == None:
         return redirect('/')
-    paginate = Image.query.paginate(page=1, per_page=3)
+    paginate = Image.query.order_by(db.desc(Image.id)).paginate(page=1, per_page=3)
     return render_template('profile.html', user=user, has_next=paginate.has_next, images=paginate.items)
 
 
@@ -160,7 +161,7 @@ def view_image(image_name):
     return send_from_directory(app.config['UPLOAD_DIR'], image_name)
 
 
-@app.route('/addcomment/', methods={'post'})
+@app.route('/add/comment/', methods={'post'})
 @login_required
 def add_comment():
     image_id = int(request.values['image_id'])
