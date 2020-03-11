@@ -6,16 +6,22 @@ $(function () {
     oExports.initialize();
 
     function fInitialize() {
-        var that = this;
 
-        var oCmtIpt = $('#js-Cmt');
-        var oListDv = $('ul.js-discuss-list');
+        let that = this;
+        let oCmtIpt = $('.jsCmt');
+        // alert(oCmtIpt);
+        let oListDv = $('ul.js-discuss-list');
 
         // 点击添加评论
         var bSubmit = false;
         $('.more-info').on('click', function() {
-            var sCmt = $.trim(oCmtIpt.val());
-            var sImageId = this.value;
+            let sImageId = this.value;
+            //var oCmtIpt=this.previousSibling;
+            alert(sImageId);
+            //let oCmtIpt = $('#sImageId');
+            alert(oCmtIpt);
+            let sCmt = $.trim(oCmtIpt.val());
+            alert(oCmtIpt.val());
             // 评论为空不能提交
             if (!sCmt) {
                 return alert('评论不能为空');
