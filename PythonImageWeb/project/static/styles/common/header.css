@@ -24,17 +24,37 @@
 
 .web-menu {
     float: right;
-    margin-top: 20px;
+    margin-top: 12px;
 }
 .profile-ico {
     background-image: url(../../images/img/icons.png);
     background-repeat: no-repeat;
-    background-size: 352px 157px;
-    background-position: -107px -52px;
-    height: 24px;
-    width: 24px;
-    display: block;
+    /*background-size: 352px 157px;*/
+    background-position: -152px -271px;
+    height: 44px;
+    width: 45px;
+    display: inline-block;
     overflow: hidden;
     text-indent: 110%;
     white-space: nowrap;
+    margin-right: 10px;
+}
+.profile-ico:hover {
+    background-position: -202px -271px;
+}
+.pro-avatar {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    /*vertical-align: middle;*/
+    overflow: hidden;
+    border: 1px solid #dbdbdb;
+    margin-right: 5px;
+}
+.pro-avatar img {
+    width: 40px;
+}
+.pro-avatar:hover {
+    border: 2px solid #020000;
 }
