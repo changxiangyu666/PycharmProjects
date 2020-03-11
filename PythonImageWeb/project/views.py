@@ -56,7 +56,7 @@ def profile(user_id):
     user = User.query.get(user_id)
     if user == None:
         return redirect('/')
-    paginate = Image.query.order_by(db.desc(Image.id)).paginate(page=1, per_page=3)
+    paginate = Image.query.filter_by(user_id=user_id).order_by(db.desc(Image.id)).paginate(page=1, per_page=3)
     return render_template('profile.html', user=user, has_next=paginate.has_next, images=paginate.items)
 
 
@@ -153,7 +153,7 @@ def reg():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect('/')
+    return redirect('/regloginpage')
 
 
 @app.route('/image/<image_name>')
@@ -203,3 +203,23 @@ def upload():
             db.session.commit()
 
     return redirect('/profile/%d' % current_user.id)
+
+
+
+@app.route('/upload/avatar/', methods={"post"})
+@login_required
+def uploading_img():
+    file = request.files['file']
+    # http://werkzeug.pocoo.org/docs/0.10/datastructures/
+    # 需要对文件进行裁剪等操作
+    file_ext = ''
+    if file.filename.find('.') > 0:
+        file_ext = file.filename.rsplit('.', 1)[1].strip().lower()
+    if file_ext in app.config['ALLOWED_EXT']:
+        file_name = str(uuid.uuid1()).replace('-', '') + '.' + file_ext
+        # head_url = qiniu_upload_file(file, file_name)
+        head_url = save_to_local(file, file_name)
+        if head_url != None:
+            db.session.add(User(head_url, id))
+            db.session.commit()
+    return redirect('/profile/%d' % id)
