@@ -20,10 +20,21 @@
     margin: 0 30px;
     background-color: #fafafa;
     border: 1px solid #dbdbdb;
+    position: relative;
 }
 .profile-avatar img {
     display: block;
     width: 150px;
+}
+#avatar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    display: block;
+    width: 150px;
+    height: 150px;
+    cursor: pointer;
 }
 
 .profile-content {
@@ -31,6 +42,7 @@
 }
 
 .profile-info-main {
+    position: relative;
     margin-bottom: 10px;
 }
 .profile-info-main .name {
@@ -170,3 +182,84 @@
     color: #3897f0;
     font-size: 14px;
 }
+/*设置样式*/
+#b1 {
+    font-style: normal;
+    border: none;
+    background-color: #FAFAFA;
+    padding: 0px 20px;
+}
+._8-yf5 {
+    position: absolute;
+    top: 1px;
+}
+.cover{
+        position: fixed;
+        /*首先将位置固定住*/
+        top:0;
+        right:0;
+        bottom:0;
+        left:0;
+        /*上下左右设置都为0*/
+        background-color: rgba(0,0,0,0.6);
+
+        z-index:99;
+        /*指定一个元素的堆叠顺序,数值越大,表示在越上边*/
+    }
+.modal{
+        width:400px;
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        background-color: white;
+        z-index: 100;
+        /*将x的位置移动*/
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    }
+.close{
+        font-size: 14px;
+        cursor: pointer;
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        margin: 20px auto;
+        color: #020000;
+    }
+.hide{
+        display: none;
+        /*表示不显示*/
+    }
+.out{
+        position: relative;
+        text-decoration: none;
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        padding: 20px 0;
+        /*border-bottom: solid 0.5px #B7B7B7;*/
+        color: #020000;
+        font-size: 14px;
+    }
+.out:before {
+        content: "";
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        left: -0%;
+        top: -0%;
+        border-bottom: 1px solid #B7B7B7;
+        -webkit-transform-origin: 0 0;
+        -moz-transform-origin: 0 0;
+        -ms-transform-origin: 0 0;
+        -o-transform-origin: 0 0;
+        transform-origin: 0 0;
+        -webkit-transform: scale(0.5, 0.5);
+        -ms-transform: scale(0.5, 0.5);
+        -o-transform: scale(0.5, 0.5);
+        transform: scale(0.5, 0.5);
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
