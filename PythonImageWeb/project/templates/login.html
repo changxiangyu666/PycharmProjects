@@ -22,12 +22,14 @@
                     <div class="login-center-img"><img src="../static/images/res/name.png"/></div>
                     <div class="login-center-input">
                         <input class="input-txt"  aria-label="用户名" aria-required="true" autocapitalize="off" autocorrect="off" maxlength="30" name="username" placeholder="请输入用户名" value="" type="text" data-reactid=".0.1.0.1.0.1.0.5.0">
+                        <div class="login-center-input-text">用户名</div>
                     </div>
                 </div>
                 <div class="login-center clearfix">
                     <div class="login-center-img"><img src="../static/images/res/password.png"/></div>
                     <div class="login-center-input">
                         <input class="input-txt" aria-describedby="" aria-label="密码" aria-required="true" autocapitalize="off" autocorrect="off" name="password" placeholder="请输入密码" type="password" value="" data-reactid=".0.1.0.1.0.1.0.6.0">
+                        <div class="login-center-input-text">密码</div>
                     </div>
                 </div>
 
@@ -74,7 +76,7 @@
 	    ele.className = newClass.replace(/^\s+|\s+$/g, '');
 	  }
 	}
-		document.querySelector(".login-button").onclick = function(){
+		document.querySelector(".btn-primary").onclick = function(){
 				addClass(document.querySelector(".login"), "active")
 				setTimeout(function(){
 					addClass(document.querySelector(".sk-rotating-plane"), "active")
