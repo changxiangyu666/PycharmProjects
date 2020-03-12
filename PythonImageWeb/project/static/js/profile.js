@@ -60,7 +60,7 @@ $(function () {
                     sHtml += that.tpl([
                         '<a class="item" href="/image/#{id}">',
                             '<div class="img-box">',
-                                '<img src="#{url}">',
+                                '<img src="#{url}?imageView/1/w/290/h/290">',
                             '</div>',
                             '<div class="img-mask"></div>',
                             '<div class="interaction-wrap">',
