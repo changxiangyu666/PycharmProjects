@@ -65,18 +65,16 @@
 
 .btn-success {
     border-radius: 3px;
-    border: 1px solid #70c050;
+    border: 1px solid #000022;
     font-weight: 600;
     font-size: 16px;
     outline: none;
-
-    background: #70c050;
-    color: #fff;
-    cursor: pointer;
-
+    background: #FAFAFA;
+    color: #000022;
     line-height: 30px;
     padding: 0 10px;
     margin-left: 20px;
+    cursor: pointer;
 }
 
 .profile-info-sub  {
