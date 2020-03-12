@@ -9,7 +9,7 @@
                 <label for="avatar"><img class="_8gpiy _r43r5 _f2b2t" src="{{user.head_url}}?imageView/1/w/150/h/150"></label>
                 {% if user.id == current_user.id %}
                 <form method="post" action="/upload/avatar/" enctype="multipart/form-data">
-                    <input id="avatar" type="file" title="更换头像" onchange="this.parentNode.submit()">
+                    <input name="file" id="avatar" type="file" title="更换头像" onchange="this.parentNode.submit()">
                 </form>
                 {% endif %}
             </div>
