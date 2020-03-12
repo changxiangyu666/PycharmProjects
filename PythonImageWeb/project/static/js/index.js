@@ -14,11 +14,11 @@ $(function () {
     function fInitialize() {
         var that = this;
         // 常用元素
-        that.listEl = $('div.list-mod');
+        that.listEl = $('div.js-image-list');
         // 初始化数据
-        // that.uid = window.uid;
+        // that.uid = window.mid;
         that.page = 1;
-        that.pageSize = 3;
+        that.pageSize = 5;
         that.listHasNext = true;
         // 绑定事件
         $('.js-load-more').on('click', function (oEvent) {
@@ -58,20 +58,21 @@ $(function () {
                 var sHtml = '';
                 $.each(oResult.images, function (nIndex, oImage) {
                     sHtml += that.tpl([
+                        '<div>',
                         '<article class="mod">',
                             '<header class="mod-hd">',
                                 '<time class="time">#{image.created_date}</time>',
-                                '<a href="/profile/#{image.user.id}" class="avatar">',
-                                    '<img src="#{image.user.head_url}">',
+                                '<a href="/profile/#{user.id}" class="avatar">',
+                                    '<img src="#{user.head_url}?imageView/1/w/40/h/40">',
                                 '</a>',
                                 '<div class="profile-info">',
-                                    '<a title="#{image.user.username}" href="/profile/#{image.user.id}">#{image.user.username}</a>',
+                                    '<a title="#{user.username}" href="/profile/#{user.id}">#{user.username}</a>',
                                 '</div>',
                             '</header>',
                             '<div class="mod-bd">',
                                 '<div class="img-box">',
-                                    '<a href="/image/#{image.id}">',
-                                        '<img src="#{image.url}">',
+                                    '<a href="/image/#{id}">',
+                                        '<img src="#{url}">',
                                     '</a>',
                                 '</div>',
                             '</div>',
@@ -79,7 +80,7 @@ $(function () {
                                 '<ul class="discuss-list">',
                                     '<li class="more-discuss">',
                                         '<a>',
-                                            '<span>全部 </span><span class="">#{image.comments|length}</span>',
+                                            '<span>全部 </span><span class="">#{comments|length}</span>',
                                             '<span> 条评论</span></a>',
                                     '</li>',
                                     '{% for comment in image.comments %}',
@@ -101,7 +102,8 @@ $(function () {
                                     '<button class="more-info">更多选项</button>',
                                 '</section>',
                             '</div>',
-                        '</article>'].join(''), oImage);
+                        '</article>',
+                    '</div>'].join(''), oImage);
                 });
                 sHtml && that.listEl.append(sHtml);
             },
