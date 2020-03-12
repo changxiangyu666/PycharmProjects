@@ -217,10 +217,10 @@ def upload_avatar():
         file_ext = file.filename.rsplit('.', 1)[1].strip().lower()
     if file_ext in app.config['ALLOWED_EXT']:
         file_name = str(uuid.uuid1()).replace('-', '') + '.' + file_ext
-        # head_url = qiniu_upload_file(file, file_name)
-        user = User.query.all()
-        user.head_url = save_to_local(file, file_name)
-        if user.head_url != None:
-            User.query.filter_by(id=current_user.id).update({'head_url': save_to_local(file, file_name)})
+        url = qiniu_upload_file(file, file_name)
+        # url = save_to_local(file, file_name)
+        if url != None:
+            User.query.filter_by(id=current_user.id).update({'head_url': url})
             db.session.commit()
+
     return redirect('/profile/%d' % current_user.id)
