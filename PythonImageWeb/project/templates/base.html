@@ -21,7 +21,7 @@
                         {% endif %}
                         {% if current_user.is_authenticated %}
                         <a class="pro-avatar" href="/profile/{{current_user.id}}">
-                            <img src="{{current_user.head_url}}">
+                            <img src="{{current_user.head_url}}?imageView/1/w/40/h/40">
                         </a>
                         {% else %}
                         <a class="profile-ico" href="/regloginpage/">登陆/注册</a>
