@@ -208,7 +208,7 @@ def upload():
 
 @app.route('/upload/avatar/', methods={"post"})
 @login_required
-def uploading_img():
+def upload_avatar():
     file = request.files['file']
     # http://werkzeug.pocoo.org/docs/0.10/datastructures/
     # 需要对文件进行裁剪等操作
@@ -218,8 +218,9 @@ def uploading_img():
     if file_ext in app.config['ALLOWED_EXT']:
         file_name = str(uuid.uuid1()).replace('-', '') + '.' + file_ext
         # head_url = qiniu_upload_file(file, file_name)
-        head_url = save_to_local(file, file_name)
-        if head_url != None:
-            db.session.add(User(head_url, id))
+        user = User.query.all()
+        user.head_url = save_to_local(file, file_name)
+        if user.head_url != None:
+            User.query.filter_by(id=current_user.id).update({'head_url': save_to_local(file, file_name)})
             db.session.commit()
-    return redirect('/profile/%d' % id)
+    return redirect('/profile/%d' % current_user.id)
