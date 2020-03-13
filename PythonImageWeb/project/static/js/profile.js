@@ -17,6 +17,7 @@ $(function () {
         that.listEl = $('div.js-image-list');
         // 初始化数据
         that.uid = window.uid;
+        this.cid = window.cid;
         that.page = 1;
         that.pageSize = 3;
         that.listHasNext = true;
@@ -47,6 +48,7 @@ $(function () {
         }
         that.requestData({
             uid: that.uid,
+            cid: that.cid,
             page: that.page + 1,
             pageSize: that.pageSize,
             call: function (oResult) {
@@ -56,11 +58,30 @@ $(function () {
                 that.page++;
                 // 渲染数据
                 var sHtml = '';
-                $.each(oResult.images, function (nIndex, oImage) {
+                if (uid == cid){
+                    $.each(oResult.images, function (nIndex, oImage) {
                     sHtml += that.tpl([
                         '<a class="item" href="/image/#{id}">',
                             '<div class="img-box">',
-                                '<img src="#{url}?imageView/1/w/290/h/290">',
+                                '<img src="#{url}?imageView/1/w/390/h/290">',
+                            '</div>',
+                            '<div class="img-mask">',
+                                '<form method="post" action="/delete/img/#{id}" enctype="multipart/form-data">',
+                                    '<button class="btn1" onchange="this.parentNode.submit()"></button>',
+                                '</form>',
+                            '</div>',
+                            '<div class="interaction-wrap">',
+                                '<div class="interaction-item"><i class="icon-comment"></i>#{comment_count}</div>',
+                            '</div>',
+                        '</a>'].join(''), oImage);
+                });
+                sHtml && that.listEl.append(sHtml);
+                }else {
+                    $.each(oResult.images, function (nIndex, oImage) {
+                    sHtml += that.tpl([
+                        '<a class="item" href="/image/#{id}">',
+                            '<div class="img-box">',
+                                '<img src="#{url}?imageView/1/w/390/h/290">',
                             '</div>',
                             '<div class="img-mask"></div>',
                             '<div class="interaction-wrap">',
@@ -69,6 +90,7 @@ $(function () {
                         '</a>'].join(''), oImage);
                 });
                 sHtml && that.listEl.append(sHtml);
+                }
             },
             error: function () {
                 alert('出现错误，请稍后重试');
