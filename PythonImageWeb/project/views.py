@@ -15,7 +15,7 @@ def index_images(page, per_page):
     images = []
     for image in paginate.items:
         comments = []
-        for i in range(0, min(2, len(images.comments))):
+        for i in range(0, min(2, len(image.comments))):
             comment = image.comments[i]
             comments.append({'username': comment.user.username, 'user_id': comment.user_id, 'content': comment.content})
         imgvo = {'id': image.id,
@@ -23,6 +23,7 @@ def index_images(page, per_page):
                  'comment_count': len(image.comments),
                  'user_id': image.user_id,
                  'head_url': image.user.head_url,
+                 'user_username':image.user.username,
                  'created_date': str(image.created_date),
                  'comments': comments}
         images.append(imgvo)
