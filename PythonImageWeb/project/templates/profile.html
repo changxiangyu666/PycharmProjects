@@ -67,10 +67,16 @@
                 {% for image in images %}
                 <a class="item" href="/image/{{image.id}}">
                     <div class="img-box">
-                        <img src="{{ image.url }}?imageView/1/w/290/h/290">
+                        <img src="{{ image.url }}?imageView/1/w/390/h/290">
                     </div>
                     <!-- <span class="ico-video">视频</span> -->
-                    <div class="img-mask"></div>
+                    <div class="img-mask">
+                        {% if user.id == current_user.id %}
+                        <form method="post" action="/delete/img/{{image.id}}" enctype="multipart/form-data">
+                            <button class="btn1" onchange="this.parentNode.submit()"></button>
+                        </form>
+                        {% endif %}
+                    </div>
                     <div class="interaction-wrap">
                         <div class="interaction-item"><i class="icon-comment"></i>{{image.comments|length}}</div>
                     </div>
@@ -89,6 +95,7 @@
 {% block js %}
 <script type="text/javascript">
     window.uid = {{user.id}};
+    window.cid = {{current_user.id}}
 </script>
 <script type="text/javascript" src="/static/js/configure.js"></script>
 <script type="text/javascript" src="/static/js/jquery.js"></script>
