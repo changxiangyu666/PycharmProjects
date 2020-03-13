@@ -210,8 +210,6 @@ def upload():
 @login_required
 def upload_avatar():
     file = request.files['file']
-    # http://werkzeug.pocoo.org/docs/0.10/datastructures/
-    # 需要对文件进行裁剪等操作
     file_ext = ''
     if file.filename.find('.') > 0:
         file_ext = file.filename.rsplit('.', 1)[1].strip().lower()
@@ -222,5 +220,22 @@ def upload_avatar():
         if url != None:
             User.query.filter_by(id=current_user.id).update({'head_url': url})
             db.session.commit()
+
+    return redirect('/profile/%d' % current_user.id)
+
+@app.route('/delete/img/<int:image_id>', methods={"post"})
+@login_required
+def delete_img(image_id):
+    image = Image.query.get(image_id)
+
+    if image == None:
+        return redirect('/')
+    comment = Comment.query.filter_by(image_id=image_id).order_by(Comment.id).all()
+    for i in comment:
+        comment = Comment.query.get(i)
+        db.session.delete(comment)
+
+    db.session.delete(image)
+    db.session.commit()
 
     return redirect('/profile/%d' % current_user.id)
