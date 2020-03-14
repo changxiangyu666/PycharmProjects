@@ -48,9 +48,14 @@
                     </li>
                     -->
                     <li class="more-discuss">
-                        <a>
-                            <span>全部 </span><span class="">{{image.comments|length}}</span>
-                            <span> 条评论</span></a>
+                        <div class="lianjie">
+                            <a class="heart"></a>
+                            <span class="comsp"> 0 &nbsp;&nbsp;次赞</span>
+                        </div>
+                        <div class="lianjie">
+                            <a class="com" href="/image/{{image.id}}"></a>
+                            <span class="comsp">{{image.comments|length}}&nbsp;&nbsp;条评论</span>
+                        </div>
                     </li>
 
 {#                    {% for comment in image.comments %}#}
@@ -68,13 +73,10 @@
                 </ul>
 
                 <section class="discuss-edit">
-                    <a class="icon-heart"></a>
-
-                        <form class="js-Cmt">
-                            <input placeholder="添加评论..." id={{image.id}} type="text" class="jsCmt">
-                        </form>
-                        <button class="more-info" value={{image.id}} >更多选项</button>
-
+                    <form class="js-Cmt">
+                        <input placeholder="添加评论..." id={{image.id}} type="text" class="jsCmt">
+                    </form>
+                    <button class="more-info" value={{image.id}} >更多选项</button>
                 </section>
             </div>
         </article>

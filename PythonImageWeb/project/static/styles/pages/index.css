@@ -116,18 +116,6 @@
     width: 100%;
 }
 
-.icon-heart-empty,
-.icon-heart {
-    display: inline-block;
-    vertical-align: middle;
-    color: #aaa;
-    font-size: 20px;
-    margin-right: 5px;
-}
-.icon-heart {
-    color: #ED4956;
-}
-
 .discuss-edit form {
     display: inline-block;
     vertical-align: middle;
@@ -137,4 +125,33 @@
     line-height: 18px;
     border: none;
     width: 484px;
+}
+
+.lianjie{
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+    width: 140px;
+}
+.comsp{
+    position: absolute;
+    top: 6px;
+    left: 45px;
+    display: inline-block;
+    width: 100px;
+}
+.com {
+    background: url(../../images/img/icons.png) no-repeat -118px -77px;
+    display: inline-block;
+    height: 32px;
+    width: 36px;
+}
+.heart {
+    background: url(../../images/img/icons.png) no-repeat -301px -279px;
+    display: inline-block;
+    height: 32px;
+    width: 36px;
+}
+.after-heart {
+    background-position: -339px -279px;
 }
