@@ -3,7 +3,7 @@
 {% block css %}/static/styles/pages/detail.css{% endblock%}
 {% block content %}
 <div class="page-main clearfix">
-    <article>
+    <article class="JyscU">
         <div class="pic-wrapper">
             <img src="{{image.url}}?imageView/1/w/800/h/600">
         </div>
@@ -29,33 +29,43 @@
                 </div>
             </section>
             -->
-            <ul class="discuss-list js-discuss-list">
-                <!--
-                <li>
-                    <h1>
-                        <a>toutvadisparaitre</a>
-                        <span data-reactid=".0.1.0.0.0.2.1.0.0.1">
-                            <span data-reactid=".0.1.0.0.0.2.1.0.0.1.0">和朋友吐一吐是解忧最佳</span>
+            <div class="EtaWK">
+                <ul class="discuss-list js-discuss-list">
+                    <!--
+                    <li>
+                        <h1>
+                            <a>toutvadisparaitre</a>
+                            <span data-reactid=".0.1.0.0.0.2.1.0.0.1">
+                                <span data-reactid=".0.1.0.0.0.2.1.0.0.1.0">和朋友吐一吐是解忧最佳</span>
+                            </span>
+                        </h1>
+                    </li>
+                    <li>
+                        <a>scottiecosmos</a>
+                        <span>
+                            <span>That's what i call "awesomeness"</span>
                         </span>
-                    </h1>
-                </li>
-                <li>
-                    <a>scottiecosmos</a>
-                    <span>
-                        <span>That's what i call "awesomeness"</span>
-                    </span>
-                </li>
-                -->
-                {% for comment in comments%}
-                <li>
-                    <!-- <a class=" icon-remove" title="删除评论"></a> -->
-                    <a class="_4zhc5 _iqaka" title="{{comment.user.username}}" href="/profile/{{comment.user.id}}">{{comment.user.username}}</a>
-                    <span>
-                        <span>{{comment.content}}</span>
-                    </span>
-                </li>
-                {% endfor %}
-            </ul>
+                    </li>
+                    -->
+                    {% for comment in comments%}
+                    <li class="list">
+                        <a href="/profile/{{comment.user.id}}" class="avatar">
+                            <img src="{{comment.user.head_url}}?imageView/1/w/40/h/40">
+                        </a>
+                        <!-- <a class=" icon-remove" title="删除评论"></a> -->
+                        <a class="_4zhc5 _iqaka" title="{{comment.user.username}}" href="/profile/{{comment.user.id}}">{{comment.user.username}}</a>
+                        <div class="ccontent">
+                            <span>{{comment.content}}</span>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% if has_next %}
+                <div class="more-content js-load-more">
+                    <a class="_oidfu" href="javascript:void(0);">更多</a>
+                </div>
+            {% endif %}
             <section class="discuss-edit">
                 <a class="icon-heart-empty"></a>
                 <input placeholder="添加评论..." id="jsCmt" type="text">

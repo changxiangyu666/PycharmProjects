@@ -11,6 +11,7 @@ class Comment(db.Model):
     content = db.Column(db.String(1024))
     image_id = db.Column(db.Integer, db.ForeignKey('image.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    created_date = db.Column(db.DateTime)
     status = db.Column(db.Integer, default=0)  # 0 正常 1删除
     user = db.relationship('User')
 
@@ -18,6 +19,7 @@ class Comment(db.Model):
         self.content = content
         self.image_id = image_id
         self.user_id = user_id
+        self.created_date = datetime.now()
 
     def __repr__(self):
         return ('<Comment%d %s>' % (self.id, self.content)).encode('gbk')

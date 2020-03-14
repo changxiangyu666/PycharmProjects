@@ -47,7 +47,7 @@ def image(image_id):
     image = Image.query.get(image_id)
     if image == None:
         return redirect('/')
-    comments = Comment.query.filter_by(image_id=image_id).order_by(db.desc(Comment.id)).limit(20).all()
+    comments = Comment.query.filter_by(image_id=image_id).order_by(db.desc(Comment.id)).limit(10).all()
     return render_template('pageDetail.html', image=image, comments=comments)
 
 
@@ -172,6 +172,7 @@ def add_comment():
     db.session.commit()
     return json.dumps({"code": 0, "id": comment.id,
                        "content": comment.content,
+                       "user_head_url": comment.user.head_url,
                        "username": comment.user.username,
                        "user_id": comment.user_id})
 

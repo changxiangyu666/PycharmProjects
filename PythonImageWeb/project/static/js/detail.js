@@ -37,9 +37,12 @@ $(function () {
                 oCmtIpt.val('');
                 // 渲染新的评论
                 var sHtml = [
-                    '<li>',
+                    '<li class="list">',
+                        '<a href="/profile/', oResult.user_id, '" class="avatar">',
+                            '<img src="',oResult.user_head_url,'?imageView/1/w/40/h/40">',
+                        '</a>',
                         '<a class="_4zhc5 _iqaka" title="', that.encode(oResult.username), '" href="/profile/', oResult.user_id, '">', that.encode(oResult.username), '</a> ',
-                        '<span><span>', that.encode(sCmt), '</span></span>',
+                        '<div class="ccontent"><span>', that.encode(sCmt), '</span></div>',
                     '</li>'].join('');
                 oListDv.prepend(sHtml);
             }).fail(function (oResult) {
