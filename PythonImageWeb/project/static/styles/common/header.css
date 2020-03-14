@@ -1,16 +1,33 @@
 /* header */
 .header {
-    padding: 0 20px;
     height: 70px;
-    border-bottom: 1px solid #dbdbdb;
-    background: #fff;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
+.lz6s{
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: #fff;
+    border-bottom: 1px solid #dbdbdb;
+    position: fixed;
+    top: 0;
+    -webkit-transition: height .2s ease-in-out;
+    transition: height .2s ease-in-out;
+    width: 100%;
+    z-index: 99;
+}
+.zhanwei{height: 60px;}
 
 .header-cont {
-    margin: 0 auto;
+    height: 70px;
+    padding: 0 20px;
     max-width: 1010px;
     width: 100%;
-    padding: 0 40px;
+    margin: 0 auto;
 }
 
 .logo {
