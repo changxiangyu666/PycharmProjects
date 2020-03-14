@@ -84,7 +84,23 @@ $(function () {
                                             '<span>全部 </span><span class="">#{comment_count}</span>',
                                             '<span> 条评论</span></a>',
                                     '</li>',
-
+                                    // $.each(oResult.images, function (nIndex, oImage) {
+                                    //     var comments=oImage.comments;
+                                    //     $.each(comments, function (nIndex, oImage) {
+                                    //         if(comments.length>2){
+                                    //             return;
+                                    //         }
+                                    //         uHtml += that.tpl([
+                                    //             '<li>',
+                                    //                 '<a class="_4zhc5 _iqaka" title="#{oImage.username}" href="/profile/#{oImage.user_id}" data-reactid=".0.1.0.0.0.2.1.2:$comment-17856951190001917.1">#{oImage.username}</a>',
+                                    //                 '<span>',
+                                    //                     '<span>#{oImage.content}</span>',
+                                    //                 '</span>',
+                                    //             '</li>'
+                                    //         ].join(''), oImage);
+                                    //     });
+                                    //     uHtml && that.listUl.append(uHtml);
+                                    // }),
                                 '</ul>',
                                 '<section class="discuss-edit">',
                                     '<a class="icon-heart"></a>',
@@ -94,28 +110,10 @@ $(function () {
                                     '<button class="more-info">更多选项</button>',
                                 '</section>',
                             '</div>',
-                        '</article>',
+                        '</article>'
                     ].join(''), oImage);
                 });
                 sHtml && that.listEl.append(sHtml);
-                    let image_comments= "#{comment_count}";
-                for(comment in image_comments){
-                    // if(comment.index > 2){
-                    //     break
-                    // }else {
-                        $.each(oResult.comments, function (nIndex, oImage) {
-                            uHtml += that.tpl([
-                                '<li>',
-                                    '<a class="_4zhc5 _iqaka" title="#{username}" href="/profile/#{user_id}" data-reactid=".0.1.0.0.0.2.1.2:$comment-17856951190001917.1">#{username}</a>',
-                                    '<span>',
-                                        '<span>#{content}</span>',
-                                    '</span>',
-                                '</li>',
-                            ].join(''), oImage);
-                        });
-                        uHtml && that.listUl.append(uHtml);
-                    // }
-                }
             },
             error: function () {
                 alert('出现错误，请稍后重试');
