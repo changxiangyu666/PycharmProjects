@@ -184,13 +184,15 @@
     height: 120px;
     width: 120px;
     text-align: center;
-    line-height: 120px;
+    line-height: 115px;
     border-radius: 50%;
-    border: 2px solid #3897f0;
+    border: 3px solid #333;
+    cursor: pointer;
 }
 .more-content a {
-    color: #3897f0;
-    font-size: 14px;
+    color: #333;
+    font-size: 20px;
+    font-weight: 600;
 }
 /*设置样式*/
 #b1 {

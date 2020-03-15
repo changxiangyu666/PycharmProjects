@@ -60,12 +60,12 @@
                     </li>
                     {% endfor %}
                 </ul>
+                {% if has_next %}
+                    <div class="more-content js-load-more">
+                        <a class="_oidfu" href="javascript:void(0);">更多</a>
+                    </div>
+                {% endif %}
             </div>
-            {% if has_next %}
-                <div class="more-content js-load-more">
-                    <a class="_oidfu" href="javascript:void(0);">更多</a>
-                </div>
-            {% endif %}
             <section class="discuss-edit">
                 <a class="icon-heart-empty"></a>
                 <input placeholder="添加评论..." id="jsCmt" type="text">
@@ -81,4 +81,5 @@
 </script>
 <script type="text/javascript" src="/static/js/jquery.js"></script>
 <script type="text/javascript" src="/static/js/detail.js"></script>
+<script type="text/javascript" src="/static/js/pageDetail.js"></script>
 {% endblock%}

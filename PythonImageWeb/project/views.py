@@ -47,8 +47,21 @@ def image(image_id):
     image = Image.query.get(image_id)
     if image == None:
         return redirect('/')
-    comments = Comment.query.filter_by(image_id=image_id).order_by(db.desc(Comment.id)).limit(10).all()
-    return render_template('pageDetail.html', image=image, comments=comments)
+    paginate = Comment.query.filter_by(image_id=image_id).order_by(db.desc(Comment.id)).paginate(page=1, per_page=10)
+    return render_template('pageDetail.html', image=image, has_next=paginate.has_next,  comments=paginate.items)
+
+
+@app.route('/image/comments/<int:image_id>/<int:page>/<int:per_page>/')
+def image_images(image_id, page, per_page):
+    # 参数检查
+    paginate = Comment.query.filter_by(image_id=image_id).order_by(db.desc(Comment.id)).paginate(page=page, per_page=per_page, error_out=False)
+    map = {'has_next': paginate.has_next}
+    comments = []
+    for comment in paginate.items:
+        comgvo = {'head_url': comment.user.head_url, 'content': comment.content, 'user_id': comment.user_id, 'username': comment.user.username}
+        comments.append(comgvo)
+    map['comments'] = comments
+    return json.dumps(map)
 
 
 @app.route('/profile/<int:user_id>/')
