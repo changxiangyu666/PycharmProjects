@@ -6,22 +6,15 @@ $(function () {
     oExports.initialize();
 
     function fInitialize() {
-
         let that = this;
-        let oCmtIpt = $('.jsCmt');
-        // alert(oCmtIpt);
-        let oListDv = $('ul.js-discuss-list');
 
         // 点击添加评论
         var bSubmit = false;
         $('.more-info').on('click', function() {
             let sImageId = this.value;
-            //var oCmtIpt=this.previousSibling;
-            alert(sImageId);
-            //let oCmtIpt = $('#sImageId');
-            alert(oCmtIpt);
+            let oCmtIpt = $('#'+sImageId+'');
+            let oListDv = $('.'+sImageId+'');
             let sCmt = $.trim(oCmtIpt.val());
-            alert(oCmtIpt.val());
             // 评论为空不能提交
             if (!sCmt) {
                 return alert('评论不能为空');
@@ -64,6 +57,5 @@ $(function () {
              sStr = sStr.replace(new RegExp(aReplace[i],'g'), aReplace[i+1]);
         }
         return sStr;
-    };
-
+    }
 });

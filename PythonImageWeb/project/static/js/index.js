@@ -19,7 +19,7 @@ $(function () {
         // 初始化数据
         // that.uid = window.mid;
         that.page = 1;
-        that.pageSize = 5;
+        that.pageSize = 20;
         that.listHasNext = true;
         // 绑定事件
         $('.js-load-more').on('click', function (oEvent) {
@@ -47,7 +47,6 @@ $(function () {
             return;
         }
         that.requestData({
-            // uid: that.uid,
             page: that.page + 1,
             pageSize: that.pageSize,
             call: function (oResult) {
@@ -78,7 +77,7 @@ $(function () {
                                 '</div>',
                             '</div>',
                             '<div class="mod-ft">',
-                                '<ul class="discuss-list js-discuss-list">',
+                                '<ul class="discuss-list">',
                                     '<li class="more-discuss">',
                                         '<div class="lianjie">',
                                             '<a class="heart"></a>',
@@ -89,6 +88,7 @@ $(function () {
                                             '<span class="comsp">#{comment_count}&nbsp;&nbsp;条评论</span>',
                                         '</div>',
                                     '</li>',
+                                    '<ul class="#{id}"></ul>',
                                     // $.each(oResult.images, function (nIndex, oImage) {
                                     //     var comments=oImage.comments;
                                     //     $.each(comments, function (nIndex, oImage) {
@@ -109,9 +109,56 @@ $(function () {
                                 '</ul>',
                                 '<section class="discuss-edit">',
                                     '<form>',
-                                        '<input placeholder="添加评论..." type="text">',
+                                        '<input placeholder="添加评论..." type="text" class="jsCmt" id=#{id}>',
                                     '</form>',
-                                    '<button class="more-info">更多选项</button>',
+                                    '<button class="more-info" value=#{id} onmousedown="fInitialize()">更多选项</button>',
+                                    '<script type="text/javascript">' +
+                                    'function fInitialize() {\n' +
+                                    '        let that = this;\n' +
+                                    '\n' +
+                                    '        // 点击添加评论\n' +
+                                    '        var bSubmit = false;\n' +
+                                    '        $(\'.more-info\').on(\'click\', function() {\n' +
+                                    '            let sImageId = this.value;\n' +
+                                    '            let oCmtIpt = $(\'#\'+sImageId+\'\');\n' +
+                                    '            let sId = oCmtIpt.attr("id");\n' +
+                                    '            let oListDv = $(\'.\'+sImageId+\'\');\n' +
+                                    '            let sCmt = $.trim(oCmtIpt.val());\n' +
+                                    '            // 评论为空不能提交\n' +
+                                    '            if (!sCmt) {\n' +
+                                    '                return alert(\'评论不能为空\');\n' +
+                                    '            }\n' +
+                                    '            // 上一个提交没结束之前，不再提交新的评论\n' +
+                                    '            if (bSubmit) {\n' +
+                                    '                return;\n' +
+                                    '            }\n' +
+                                    '            bSubmit = true;\n' +
+                                    '            $.ajax({\n' +
+                                    '                url: \'/add/comment/\',\n' +
+                                    '                type: \'post\',\n' +
+                                    '                dataType: \'json\',\n' +
+                                    '                data: {image_id: sImageId, content: sCmt}\n' +
+                                    '            }).done(function (oResult) {\n' +
+                                    '                if (oResult.code !== 0) {\n' +
+                                    '                    return alert(oResult.msg || \'提交失败，请重试\');\n' +
+                                    '                }\n' +
+                                    '                // 清空输入框\n' +
+                                    '                oCmtIpt.val(\'\');\n' +
+                                    '                alert(\'提交成功!\');\n' +
+                                    '                // 渲染新的评论\n' +
+                                    '                var sHtml = [\n' +
+                                    '                    \'<li>\',\n' +
+                                    '                        \'<a class="_4zhc5 _iqaka" title="\', that.encode(oResult.username), \'" href="/profile/\', oResult.user_id, \'">\', that.encode(oResult.username), \'</a> \',\n' +
+                                    '                        \'<span><span>\', that.encode(sCmt), \'</span></span>\',\n' +
+                                    '                    \'</li>\'].join(\'\');\n' +
+                                    '                oListDv.prepend(sHtml);\n' +
+                                    '            }).fail(function (oResult) {\n' +
+                                    '                alert(oResult.msg || \'提交失败，请重试!\');\n' +
+                                    '            }).always(function () {\n' +
+                                    '                bSubmit = false;\n' +
+                                    '            });\n' +
+                                    '        });\n' +
+                                    '    }</script>',
                                 '</section>',
                             '</div>',
                         '</article>'

@@ -30,7 +30,7 @@
                     <span> 次播放</span>
                 </section>
                 -->
-                <ul class="discuss-list js-discuss-list">
+                <ul class="discuss-list">
                     <!--
                     <li>
                         <h1>
@@ -57,14 +57,15 @@
                             <span class="comsp">{{image.comments|length}}&nbsp;&nbsp;条评论</span>
                         </div>
                     </li>
-
+                    <ul class="{{image.id}}"></ul>
 {#                    {% for comment in image.comments %}#}
 {#                        {% if loop.index > 2 %}{% break %} {% endif %}#}
 {#                        <li>#}
 {#                            <!--#}
 {#                            <a class=" icon-remove" title="删除评论"></a>#}
 {#                            -->#}
-{#                            <a class="_4zhc5 _iqaka" title="{{comment.user.username}}" href="/profile/{{comment.user.id}}" data-reactid=".0.1.0.0.0.2.1.2:$comment-17856951190001917.1">{{comment.user.username}}</a>#}
+{#                            <a class="_4zhc5 _iqaka" title="{{comment.user.username}}" href="/profile/{{comment.user.
+}}" data-reactid=".0.1.0.0.0.2.1.2:$comment-17856951190001917.1">{{comment.user.username}}</a>#}
 {#                            <span>#}
 {#                                <span>{{comment.content}}</span>#}
 {#                            </span>#}
@@ -73,8 +74,8 @@
                 </ul>
 
                 <section class="discuss-edit">
-                    <form class="js-Cmt">
-                        <input placeholder="添加评论..." id={{image.id}} type="text" class="jsCmt">
+                    <form>
+                        <input placeholder="添加评论..." class="jsCmt" id={{image.id}} type="text">
                     </form>
                     <button class="more-info" value={{image.id}} >更多选项</button>
                 </section>
@@ -93,9 +94,6 @@
 {% endblock%}
 
 {% block js %}
-<script type="text/javascript">
-
-</script>
 <script type="text/javascript" src="/static/js/jquery.js"></script>
 <script type="text/javascript" src="/static/js/index.js"></script>
 <script type="text/javascript" src="/static/js/indexDetail.js"></script>
