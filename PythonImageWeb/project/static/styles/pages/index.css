@@ -141,17 +141,20 @@
     width: 100px;
 }
 .com {
-    background: url(../../images/img/icons.png) no-repeat -118px -77px;
+    background: url(../../images/img/icons.png) no-repeat -125px -0px;
     display: inline-block;
-    height: 32px;
-    width: 36px;
+    height: 30px;
+    width: 30px;
+}
+.com:hover {
+    background-position: -92px 0px;
 }
 .heart {
-    background: url(../../images/img/icons.png) no-repeat -301px -279px;
+    background: url(../../images/img/icons.png) no-repeat -23px 0px;
     display: inline-block;
-    height: 32px;
-    width: 36px;
+    height: 30px;
+    width: 30px;
 }
 .after-heart {
-    background-position: -339px -279px;
+    background-position: -58px 0px;
 }

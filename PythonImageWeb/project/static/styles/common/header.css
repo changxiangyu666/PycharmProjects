@@ -46,10 +46,9 @@
 .profile-ico {
     background-image: url(../../images/img/icons.png);
     background-repeat: no-repeat;
-    /*background-size: 352px 157px;*/
-    background-position: -152px -271px;
-    height: 44px;
-    width: 45px;
+    background-position: -132px -33px;
+    height: 40px;
+    width: 40px;
     display: inline-block;
     overflow: hidden;
     text-indent: 110%;
@@ -57,7 +56,7 @@
     margin-right: 10px;
 }
 .profile-ico:hover {
-    background-position: -202px -271px;
+    background-position: -87px -33px;
 }
 .pro-avatar {
     display: inline-block;

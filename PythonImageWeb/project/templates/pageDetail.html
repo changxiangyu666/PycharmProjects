@@ -30,7 +30,7 @@
             </section>
             -->
             <div class="EtaWK">
-                <ul class="discuss-list js-discuss-list">
+                <ul class="discuss-list">
                     <!--
                     <li>
                         <h1>
@@ -59,6 +59,7 @@
                         </div>
                     </li>
                     {% endfor %}
+                    <ul class="js-discuss-list"></ul>
                 </ul>
                 {% if has_next %}
                     <div class="more-content js-load-more">
@@ -67,7 +68,12 @@
                 {% endif %}
             </div>
             <section class="discuss-edit">
-                <a class="icon-heart-empty"></a>
+                <div class="more-discuss" >
+                    <div class="lianjie">
+                        <a class="heart"></a>
+                        <span class="comsp"> 0 &nbsp;&nbsp;次赞</span>
+                    </div>
+                </div>
                 <input placeholder="添加评论..." id="jsCmt" type="text">
                 <button class="more-info" id="jsSubmit">更多选项</button>
             </section>

@@ -165,4 +165,34 @@
     font-size: 12px;
     font-weight: 600;
 }
+.more-discuss{
+    border-bottom: solid 1px #EFEFEF;
+}
+.lianjie{
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+    width: 140px;
+}
+.comsp{
+    position: absolute;
+    top: 6px;
+    left: 45px;
+    display: inline-block;
+    width: 100px;
+}
+.heart {
+    background: url(../../images/img/icons.png) no-repeat -23px 0px;
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+}
+.after-heart {
+    background-position: -58px 0px;
+}
+#jsCmt{
+    width: 83%;
+}
+
+
 
