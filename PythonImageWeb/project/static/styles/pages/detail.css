@@ -23,7 +23,7 @@
     border: 1px solid #eeefef;
     border-left: 0;
     border-radius: 0 3px 3px 0;
-    padding: 20px;
+    padding: 10px 20px;
     min-height: 600px;
     position: relative;
 }
@@ -102,6 +102,7 @@
     bottom: 0;
     left: 0;
     width: 280px;
+    background-color: #fff;
 }
 
 .icon-heart-empty {
@@ -134,7 +135,7 @@
     margin: 0 -20px;
 }
 .EtaWK{
-    height: 465px;
+    height: 440px;
     margin: 0 0 auto;
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;

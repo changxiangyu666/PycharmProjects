@@ -9,11 +9,12 @@ $(function () {
         var that = this;
         var sImageId = window.imageId;
         var oCmtIpt = $('#jsCmt');
-        var oListDv = $('ul.js-discuss-list');
-
+        var oListDv = $('ul.js-discuss-new');
         // 点击添加评论
         var bSubmit = false;
         $('#jsSubmit').on('click', function () {
+            var th = this;
+            clearInterval(th.timeId);
             var sCmt = $.trim(oCmtIpt.val());
             // 评论为空不能提交
             if (!sCmt) {
@@ -50,6 +51,13 @@ $(function () {
             }).always(function () {
                 bSubmit = false;
             });
+            oListDv.show().delay(2000).fadeOut();//2秒后弹窗消失
+            $(function () {
+                th.timeId=setInterval(function () {
+                    window.location.reload();//刷新当前页面
+                    oListDv.load(location.href + " .js-discuss-new");//注意后面DIV的ID前面的空格，很重要！没有空格的话，会出双眼皮！（也可以使用类名）
+                }, 2000);//2秒自动刷新
+            })
         });
     }
 

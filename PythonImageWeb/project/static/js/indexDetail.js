@@ -11,6 +11,8 @@ $(function () {
         // 点击添加评论
         var bSubmit = false;
         $('.more-info').on('click', function() {
+            var th = this;
+            clearInterval(th.timeId);
             let sImageId = this.value;
             let oCmtIpt = $('#'+sImageId+'');
             let oListDv = $('.'+sImageId+'');
@@ -47,6 +49,12 @@ $(function () {
             }).always(function () {
                 bSubmit = false;
             });
+            oListDv.show().delay(2000).fadeOut();//2秒后弹窗消失
+            $(function () {
+                th.timeId=setInterval(function () {
+                    window.location.reload();//刷新当前页面
+                }, 2000);//2秒自动刷新
+            })
         });
     }
 

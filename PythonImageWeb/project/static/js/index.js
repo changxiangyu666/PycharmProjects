@@ -88,7 +88,7 @@ $(function () {
                                             '<span class="comsp">#{comment_count}&nbsp;&nbsp;条评论</span>',
                                         '</div>',
                                     '</li>',
-                                    '<ul class="#{id}"></ul>',
+                                    '<ul class=#{id}></ul>',
                                     // $.each(oResult.images, function (nIndex, oImage) {
                                     //     var comments=oImage.comments;
                                     //     $.each(comments, function (nIndex, oImage) {
@@ -119,6 +119,8 @@ $(function () {
                                     '        // 点击添加评论\n' +
                                     '        var bSubmit = false;\n' +
                                     '        $(\'.more-info\').on(\'click\', function() {\n' +
+                                                 'var th = this;'+
+                                                 'clearInterval(th.timeId);'+
                                     '            let sImageId = this.value;\n' +
                                     '            let oCmtIpt = $(\'#\'+sImageId+\'\');\n' +
                                     '            let sId = oCmtIpt.attr("id");\n' +
@@ -144,19 +146,19 @@ $(function () {
                                     '                }\n' +
                                     '                // 清空输入框\n' +
                                     '                oCmtIpt.val(\'\');\n' +
-                                    '                alert(\'提交成功!\');\n' +
                                     '                // 渲染新的评论\n' +
-                                    '                var sHtml = [\n' +
+                                    '                var nHtml = [\n' +
                                     '                    \'<li>\',\n' +
-                                    '                        \'<a class="_4zhc5 _iqaka" title="\', that.encode(oResult.username), \'" href="/profile/\', oResult.user_id, \'">\', that.encode(oResult.username), \'</a> \',\n' +
-                                    '                        \'<span><span>\', that.encode(sCmt), \'</span></span>\',\n' +
+                                    '                        \'<a class="_4zhc5 _iqaka" title="\', oResult.username, \'" href="/profile/\', oResult.user_id, \'">\', oResult.username, \'</a> \',\n' +
+                                    '                        \'<span><span>\', sCmt, \'</span></span>\',\n' +
                                     '                    \'</li>\'].join(\'\');\n' +
-                                    '                oListDv.prepend(sHtml);\n' +
+                                    '                oListDv.prepend(nHtml);\n' +
                                     '            }).fail(function (oResult) {\n' +
                                     '                alert(oResult.msg || \'提交失败，请重试!\');\n' +
                                     '            }).always(function () {\n' +
                                     '                bSubmit = false;\n' +
                                     '            });\n' +
+                                                'oListDv.show().delay(2000).fadeOut();'+//2秒后弹窗消失
                                     '        });\n' +
                                     '    }</script>',
                                 '</section>',
