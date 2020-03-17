@@ -88,7 +88,7 @@ $(function () {
                                             '<span class="comsp">#{comment_count}&nbsp;&nbsp;条评论</span>',
                                         '</div>',
                                     '</li>',
-                                    '<ul class=#{id}></ul>',
+                                    '<ul class=#{id} id="shuaxin"></ul>',
                                     // $.each(oResult.images, function (nIndex, oImage) {
                                     //     var comments=oImage.comments;
                                     //     $.each(comments, function (nIndex, oImage) {
@@ -115,12 +115,10 @@ $(function () {
                                     '<script type="text/javascript">' +
                                     'function fInitialize() {\n' +
                                     '        let that = this;\n' +
-                                    '\n' +
+                                    '        clearInterval(that.timeId);'+
                                     '        // 点击添加评论\n' +
                                     '        var bSubmit = false;\n' +
-                                    '        $(\'.more-info\').on(\'click\', function() {\n' +
-                                                 'var th = this;'+
-                                                 'clearInterval(th.timeId);'+
+                                    '        $(\'.more-info\').one(\'click\', function() {\n' +
                                     '            let sImageId = this.value;\n' +
                                     '            let oCmtIpt = $(\'#\'+sImageId+\'\');\n' +
                                     '            let sId = oCmtIpt.attr("id");\n' +
@@ -160,6 +158,12 @@ $(function () {
                                     '            });\n' +
                                                 'oListDv.show().delay(2000).fadeOut();'+//2秒后弹窗消失
                                     '        });\n' +
+                                        '$(function () {'+
+                                            'that.timeId=setInterval(function () {'+
+                                                //window.location.reload();//刷新当前页面
+                                                '$(\'#shuaxin\').load(location.href + " #shuaxin");'+//注意后面DIV的ID前面的空格，很重要！没有空格的话，会出双眼皮！（也可以使用类名）
+                                            '}, 2000);'+//2秒自动刷新
+                                        '})'+
                                     '    }</script>',
                                 '</section>',
                             '</div>',

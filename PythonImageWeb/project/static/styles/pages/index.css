@@ -42,8 +42,8 @@
 }
 .avatar {
     display: inline-block;
-    width: 40px;
-    height: 40px;
+    width: 41px;
+    height: 41px;
     border-radius: 50%;
     vertical-align: middle;
     overflow: hidden;
@@ -51,7 +51,7 @@
     margin-right: 5px;
 }
 .avatar img {
-    width: 40px;
+    width: 42px;
 }
 .profile-info {
     font-weight: bold;

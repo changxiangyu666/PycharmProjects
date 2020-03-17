@@ -12,7 +12,7 @@ $(function () {
         var oListDv = $('ul.js-discuss-new');
         // 点击添加评论
         var bSubmit = false;
-        $('#jsSubmit').on('click', function () {
+        $('#jsSubmit').one('click', function () {
             var th = this;
             clearInterval(th.timeId);
             var sCmt = $.trim(oCmtIpt.val());
