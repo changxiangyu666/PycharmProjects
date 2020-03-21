@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}首页-{{current_user.username}}{% endblock%}
 {% block css %}/static/styles/pages/index.css{% endblock%}
+{% block extracss %}{% endblock %}
 {% block content %}
 <div class="page-main clearfix">
     <div class="js-image-list clearfix">
@@ -49,8 +50,8 @@
                     -->
                     <li class="more-discuss">
                         <div class="lianjie">
-                            <a class="heart"></a>
-                            <span class="comsp"> 0 &nbsp;&nbsp;次赞</span>
+                            <button class="icobutton icobutton--thumbs-up"><span class="heart"></span></button>
+                            <span class="comsp">{{image.fabulous|length}}&nbsp;&nbsp;次赞</span>
                         </div>
                         <div class="lianjie">
                             <a class="com" href="/image/{{image.id}}"></a>
@@ -97,4 +98,6 @@
 <script type="text/javascript" src="/static/js/jquery.js"></script>
 <script type="text/javascript" src="/static/js/index.js"></script>
 <script type="text/javascript" src="/static/js/indexDetail.js"></script>
+<script type="text/javascript" src="/static/js/mo.min.js"></script>
+<script type="text/javascript" src="/static/js/fabulous.js"></script>
 {% endblock%}

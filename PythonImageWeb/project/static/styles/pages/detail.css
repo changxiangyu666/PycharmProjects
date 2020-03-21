@@ -194,6 +194,11 @@
 #jsCmt{
     width: 83%;
 }
-
+.icobutton--thumbs-up{
+    font-style: normal;
+    border: none;
+    outline:none;
+    background-color: #fff;
+}
 
 

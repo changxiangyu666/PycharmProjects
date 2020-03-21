@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from project import app, db
-from models import Image, User, Comment
+from models import Image, User, Comment, Fabulous
 from flask import render_template, redirect, request, flash, get_flashed_messages, send_from_directory
 import random, hashlib, json, uuid, os
 from flask_login import login_user, logout_user, login_required, current_user
@@ -14,6 +14,7 @@ def index_images(page, per_page):
     map = {'has_next': paginate.has_next}
     images = []
     for image in paginate.items:
+        fabulous = []
         comments = []
         for i in range(0, min(2, len(image.comments))):
             comment = image.comments[i]
@@ -21,6 +22,8 @@ def index_images(page, per_page):
         imgvo = {'id': image.id,
                  'url': image.url,
                  'comment_count': len(image.comments),
+                 'fabulous_count': len(image.fabulous),
+                 'fabulous': fabulous,
                  'user_id': image.user_id,
                  'head_url': image.user.head_url,
                  'user_username':image.user.username,
@@ -47,8 +50,12 @@ def image(image_id):
     image = Image.query.get(image_id)
     if image == None:
         return redirect('/')
+    fabulous = []
+    fabs = Fabulous.query.filter_by(image_id=image_id).all()
+    for i in fabs:
+        fabulous.append(i)
     paginate = Comment.query.filter_by(image_id=image_id).order_by(db.desc(Comment.id)).paginate(page=1, per_page=10)
-    return render_template('pageDetail.html', image=image, has_next=paginate.has_next,  comments=paginate.items)
+    return render_template('pageDetail.html', image=image, fabulous=fabulous, has_next=paginate.has_next,  comments=paginate.items)
 
 
 @app.route('/image/comments/<int:image_id>/<int:page>/<int:per_page>/')
@@ -189,6 +196,52 @@ def add_comment():
                        "username": comment.user.username,
                        "user_id": comment.user_id})
 
+@app.route('/add/fabulous/', methods={'post'})
+@login_required
+def add_fabulous():
+    image_id = int(request.values['image_id'])
+    # 未赞过，赞一下
+    fabulous = Fabulous(image_id, current_user.id)
+    db.session.add(fabulous)
+    db.session.commit()
+    return json.dumps({"code": 0, "user_id": fabulous.user_id})
+
+@app.route('/delete/fabulous/', methods={'post'})
+@login_required
+def delete_fabulous():
+    image_id = int(request.values['image_id'])
+    # 赞过，取消
+    fabu = Fabulous.query.filter_by(image_id=image_id).filter_by(user_id=current_user.id).all()
+    for i in fabu:
+        db.session.delete(i)
+        db.session.commit()
+
+    return json.dumps({"code": 0})
+
+
+# @app.route('/add/fabulous/', methods={'post'})
+# @login_required
+# def add_fabulous():
+#     ret = {'status': 'ok'}
+#     image_id = int(request.values['image_id'])
+#     fabulous_record = Fabulous.query.filter_by(user_id=current_user.id, image_id=image_id).all()
+#     if fabulous_record:
+#         # 已赞过,取消赞
+#         fabulous = Fabulous.query.filter_by(image_id=image_id, user_id=current_user.id).order_by(Fabulous.id).all()
+#         for i in fabulous:
+#             comment = Fabulous.query.get(i)
+#             db.session.delete(comment)
+#         db.session.commit()
+#         ret['msg'] = 'unfabulous'
+#     else:
+#         # 未赞过，赞一下
+#         fabulous = Fabulous(image_id, current_user.id)
+#         db.session.add(fabulous)
+#         db.session.commit()
+#         ret['msg'] = 'fabulous'
+#
+#     return json.dumps(ret, {"code": 0, "user_id": fabulous.user_id})
+
 
 def save_to_qiniu(file, file_name):
     return qiniu_upload_file(file, file_name)
@@ -247,9 +300,9 @@ def delete_img(image_id):
         return redirect('/')
     comment = Comment.query.filter_by(image_id=image_id).order_by(Comment.id).all()
     for i in comment:
-        comment = Comment.query.get(i)
-        db.session.delete(comment)
-
+        # comment = Comment.query.get(i)
+        db.session.delete(i)
+        db.session.commit()
     db.session.delete(image)
     db.session.commit()
 
