@@ -46,6 +46,7 @@ class Image(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     created_date = db.Column(db.DateTime)
     comments = db.relationship('Comment')
+    fabulous = db.relationship('Fabulous')
 
     def __init__(self, url, user_id):
         self.url = url

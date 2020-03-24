@@ -26,7 +26,7 @@ def index_images(page, per_page):
                  'fabulous': fabulous,
                  'user_id': image.user_id,
                  'head_url': image.user.head_url,
-                 'user_username':image.user.username,
+                 'user_username': image.user.username,
                  'created_date': str(image.created_date),
                  'comments': comments}
         images.append(imgvo)
@@ -56,17 +56,21 @@ def image(image_id):
         ivo = {'user_id': i.user_id}
         fabulous.append(ivo)
     paginate = Comment.query.filter_by(image_id=image_id).order_by(db.desc(Comment.id)).paginate(page=1, per_page=10)
-    return render_template('pageDetail.html', image=image, fabulous=fabulous, has_next=paginate.has_next,  comments=paginate.items)
+    return render_template('pageDetail.html', image=image, fabulous=fabulous, has_next=paginate.has_next,
+                           comments=paginate.items)
 
 
 @app.route('/image/comments/<int:image_id>/<int:page>/<int:per_page>/')
 def image_images(image_id, page, per_page):
     # 参数检查
-    paginate = Comment.query.filter_by(image_id=image_id).order_by(db.desc(Comment.id)).paginate(page=page, per_page=per_page, error_out=False)
+    paginate = Comment.query.filter_by(image_id=image_id).order_by(db.desc(Comment.id)).paginate(page=page,
+                                                                                                 per_page=per_page,
+                                                                                                 error_out=False)
     map = {'has_next': paginate.has_next}
     comments = []
     for comment in paginate.items:
-        comgvo = {'head_url': comment.user.head_url, 'content': comment.content, 'user_id': comment.user_id, 'username': comment.user.username}
+        comgvo = {'head_url': comment.user.head_url, 'content': comment.content, 'user_id': comment.user_id,
+                  'username': comment.user.username}
         comments.append(comgvo)
     map['comments'] = comments
     return json.dumps(map)
@@ -90,7 +94,8 @@ def user_images(user_id, page, per_page):
     map = {'has_next': paginate.has_next}
     images = []
     for image in paginate.items:
-        imgvo = {'id': image.id, 'url': image.url, 'comment_count': len(image.comments), 'fab_count': len(image.fabulous)}
+        imgvo = {'id': image.id, 'url': image.url, 'comment_count': len(image.comments),
+                 'fab_count': len(image.fabulous)}
         images.append(imgvo)
     map['images'] = images
     return json.dumps(map)
@@ -197,6 +202,7 @@ def add_comment():
                        "username": comment.user.username,
                        "user_id": comment.user_id})
 
+
 @app.route('/add/fabulous/', methods={'post'})
 @login_required
 def add_fabulous():
@@ -207,6 +213,7 @@ def add_fabulous():
     db.session.commit()
     return json.dumps({"code": 0, "user_id": fabulous.user_id})
 
+
 @app.route('/delete/fabulous/', methods={'post'})
 @login_required
 def delete_fabulous():
@@ -216,32 +223,7 @@ def delete_fabulous():
     for i in fabu:
         db.session.delete(i)
         db.session.commit()
-
     return json.dumps({"code": 0})
-
-
-# @app.route('/add/fabulous/', methods={'post'})
-# @login_required
-# def add_fabulous():
-#     ret = {'status': 'ok'}
-#     image_id = int(request.values['image_id'])
-#     fabulous_record = Fabulous.query.filter_by(user_id=current_user.id, image_id=image_id).all()
-#     if fabulous_record:
-#         # 已赞过,取消赞
-#         fabulous = Fabulous.query.filter_by(image_id=image_id, user_id=current_user.id).order_by(Fabulous.id).all()
-#         for i in fabulous:
-#             comment = Fabulous.query.get(i)
-#             db.session.delete(comment)
-#         db.session.commit()
-#         ret['msg'] = 'unfabulous'
-#     else:
-#         # 未赞过，赞一下
-#         fabulous = Fabulous(image_id, current_user.id)
-#         db.session.add(fabulous)
-#         db.session.commit()
-#         ret['msg'] = 'fabulous'
-#
-#     return json.dumps(ret, {"code": 0, "user_id": fabulous.user_id})
 
 
 def save_to_qiniu(file, file_name):
@@ -274,7 +256,6 @@ def upload():
     return redirect('/profile/%d' % current_user.id)
 
 
-
 @app.route('/upload/avatar/', methods={"post"})
 @login_required
 def upload_avatar():
@@ -292,16 +273,19 @@ def upload_avatar():
 
     return redirect('/profile/%d' % current_user.id)
 
+
 @app.route('/delete/img/<int:image_id>', methods={"post"})
 @login_required
 def delete_img(image_id):
     image = Image.query.get(image_id)
-
     if image == None:
         return redirect('/')
     comment = Comment.query.filter_by(image_id=image_id).order_by(Comment.id).all()
     for i in comment:
-        # comment = Comment.query.get(i)
+        db.session.delete(i)
+        db.session.commit()
+    fabu = Fabulous.query.filter_by(image_id=image_id).order_by(Fabulous.id).all()
+    for i in fabu:
         db.session.delete(i)
         db.session.commit()
     db.session.delete(image)
