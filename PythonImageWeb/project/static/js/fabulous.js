@@ -44,7 +44,7 @@ $(function() {
 		this.options = extend( {}, this.options );
 		extend( this.options, options );
 
-		this.checked = false;
+		this.checked = true;
 
 		this.timeline = new mojs.Timeline();
 		
@@ -53,6 +53,7 @@ $(function() {
 		}
 
 		var self = this;
+
 		this.el.addEventListener(clickHandler, function() {
 			if( self.checked ) {
 				self.options.onUnCheck();
@@ -77,9 +78,6 @@ $(function() {
 	};
 
 	function init() {
-
-
-		/* Icon 6 */
 		var sImageId = window.imageId;
 		var bSubmit = false;
 		var el6 = document.querySelector('button.icobutton'), el6span = el6.querySelector('span'),el10counter = document.querySelector('.comsp');
@@ -137,12 +135,6 @@ $(function() {
 					type: 'post',
 					dataType: 'json',
 					data: {image_id: sImageId},
-				}).done(function (oResult){
-					if(oResult.user_id){
-
-					}else {
-
-					}
 				})
 			},
 			onUnCheck: function () {
@@ -153,17 +145,9 @@ $(function() {
 					type: 'post',
 					dataType: 'json',
 					data: {image_id: sImageId},
-				}).done(function (oResult){
-					if(oResult.user_id){
-
-					}else {
-
-					}
 				})
 			}
 		});
-
-		/* Icon 6 */
 	}
 	
 	init();

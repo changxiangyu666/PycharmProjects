@@ -69,8 +69,13 @@
             <section class="discuss-edit">
                 <div class="more-discuss" >
                     <div class="lianjie">
-                        <button class="icobutton icobutton--thumbs-up"><span class="heart"></span></button>
-                        <span class="comsp">{{fabulous|length}}&nbsp;&nbsp;次赞</span>
+                    {% for i in fabulous %}
+                        {% if i.user_id == current_user.id %}
+                        <div class="heart-box"><button class="icobutton icobutton--thumbs-up"><span class="after-heart"></span></button></div>
+                        {% endif %}
+                    {% endfor %}
+                        <div class="heartBox"><button class="icobutton icobutton--thumbs-up"><span class="heart"></span></button></div>
+                    <span class="comsp">{{fabulous|length}}&nbsp;&nbsp;次赞</span>
                     </div>
                 </div>
                 <ul class="js-discuss-new"></ul>

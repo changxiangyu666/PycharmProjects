@@ -53,7 +53,8 @@ def image(image_id):
     fabulous = []
     fabs = Fabulous.query.filter_by(image_id=image_id).all()
     for i in fabs:
-        fabulous.append(i)
+        ivo = {'user_id': i.user_id}
+        fabulous.append(ivo)
     paginate = Comment.query.filter_by(image_id=image_id).order_by(db.desc(Comment.id)).paginate(page=1, per_page=10)
     return render_template('pageDetail.html', image=image, fabulous=fabulous, has_next=paginate.has_next,  comments=paginate.items)
 
@@ -89,7 +90,7 @@ def user_images(user_id, page, per_page):
     map = {'has_next': paginate.has_next}
     images = []
     for image in paginate.items:
-        imgvo = {'id': image.id, 'url': image.url, 'comment_count': len(image.comments)}
+        imgvo = {'id': image.id, 'url': image.url, 'comment_count': len(image.comments), 'fab_count': len(image.fabulous)}
         images.append(imgvo)
     map['images'] = images
     return json.dumps(map)
