@@ -71,7 +71,7 @@ $(function () {
                                 '</form>',
                             '</div>',
                             '<div class="interaction-wrap">',
-                                '<div class="interaction-item"><i class="icon-comment"></i>#{comment_count}</div>',
+                                '<div class="interaction-item"><i class="icon-comment"></i>#{comment_count} <i class="icon-heart"></i>#{fab_count}</div>',
                             '</div>',
                         '</a>'].join(''), oImage);
                 });
@@ -85,7 +85,7 @@ $(function () {
                             '</div>',
                             '<div class="img-mask"></div>',
                             '<div class="interaction-wrap">',
-                                '<div class="interaction-item"><i class="icon-comment"></i>#{comment_count}</div>',
+                                '<div class="interaction-item"><i class="icon-comment"></i>#{comment_count} <i class="icon-heart"></i>#{fab_count}</div>',
                             '</div>',
                         '</a>'].join(''), oImage);
                 });

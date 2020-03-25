@@ -148,6 +148,19 @@
 .com:hover {
     background-position: -92px 0px;
 }
+.heartBox {
+    height: 30px;
+    width: 30px;
+    position: relative;
+}
+.heart-box {
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
 .heart {
     background: url(../../images/img/icons.png) no-repeat -23px 0px;
     display: inline-block;

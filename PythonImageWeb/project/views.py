@@ -15,6 +15,9 @@ def index_images(page, per_page):
     images = []
     for image in paginate.items:
         fabulous = []
+        for i in range(0, len(image.fabulous)):
+            fab = image.fabulous[i]
+            fabulous.append({'user_id': fab.user_id})
         comments = []
         for i in range(0, min(2, len(image.comments))):
             comment = image.comments[i]
