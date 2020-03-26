@@ -15,9 +15,8 @@ $(function () {
         var that = this;
         // 常用元素
         that.listEl = $('div.js-image-list');
-        that.listUl = $('ul.js-discuss-list');
         // 初始化数据
-        // that.uid = window.mid;
+        that.cuid=window.cuid;
         that.page = 1;
         that.pageSize = 20;
         that.listHasNext = true;
@@ -47,6 +46,7 @@ $(function () {
             return;
         }
         that.requestData({
+            cuid: that.cuid,
             page: that.page + 1,
             pageSize: that.pageSize,
             call: function (oResult) {
@@ -56,9 +56,8 @@ $(function () {
                 that.page++;
                 // 渲染数据
                 var sHtml = '';
-                var uHtml = '';
                 $.each(oResult.images, function (nIndex, oImage) {
-                    sHtml += that.tpl([
+                    let sHtml_part1 = that.tpl([
                         '<article class="mod">',
                             '<header class="mod-hd">',
                                 '<time class="time">#{created_date}</time>',
@@ -79,9 +78,19 @@ $(function () {
                             '<div class="mod-ft">',
                                 '<ul class="discuss-list">',
                                     '<li class="more-discuss">',
-                                        '<div class="lianjie">',
-                                            '<a class="heart"></a>',
-                                           '<span class="comsp"> 0 &nbsp;&nbsp;次赞</span>',
+                                        '<div class="lianjie jiazai">'].join(''), oImage);
+                                            let sHtml_part2 = '';
+                                            // 解析点赞列表中的数据
+                                            for (var fi = 0; fi < oImage['fabulous'].length; fi++) {
+                                                if (oImage['fabulous'][fi]['user_id'] === cuid) {
+                                                    sHtml_part2 += that.tpl([
+                                                        '<div class="heart-box"><button class="icobutton icobutton--thumbs-up"><span class="after-heart"></span></button></div>',
+                                                    ].join(''));
+                                                }
+                                            }
+                                    let sHtml_part3 =    that.tpl([
+                                            '<div class="heartBox"><button class="icobutton icobutton--thumbs-up"><span class="heart"></span></button></div>',
+                                            '<span class="comsp">#{fabulous_count}&nbsp;&nbsp;次赞</span>',
                                         '</div>',
                                         '<div class="lianjie">',
                                             '<a class="com" href="/image/#{id}"></a>',
@@ -169,6 +178,7 @@ $(function () {
                             '</div>',
                         '</article>'
                     ].join(''), oImage);
+                    sHtml += sHtml_part1 + sHtml_part2 + sHtml_part3;
                 });
                 sHtml && that.listEl.append(sHtml);
             },
