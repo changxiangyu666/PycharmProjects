@@ -12,13 +12,13 @@ $(function () {
     oExports.initialize();
 
     function fInitialize() {
-        var that = this;
+        let that = this;
         // 常用元素
         that.listEl = $('div.js-image-list');
         // 初始化数据
         that.cuid=window.cuid;
         that.page = 1;
-        that.pageSize = 20;
+        that.pageSize = 10;
         that.listHasNext = true;
         // 绑定事件
         $('.js-load-more').on('click', function (oEvent) {
@@ -88,7 +88,7 @@ $(function () {
                                                     ].join(''));
                                                 }
                                             }
-                                    let sHtml_part3 =    that.tpl([
+                                    let sHtml_part3 = that.tpl([
                                             '<div class="heartBox"><button class="icobutton icobutton--thumbs-up"><span class="heart"></span></button></div>',
                                             '<span class="comsp">#{fabulous_count}&nbsp;&nbsp;次赞</span>',
                                         '</div>',
@@ -98,23 +98,23 @@ $(function () {
                                         '</div>',
                                     '</li>',
                                     '<ul class=#{id} id="shuaxin"></ul>',
-                                    // $.each(oResult.images, function (nIndex, oImage) {
-                                    //     var comments=oImage.comments;
-                                    //     $.each(comments, function (nIndex, oImage) {
-                                    //         if(comments.length>2){
-                                    //             return;
-                                    //         }
-                                    //         uHtml += that.tpl([
-                                    //             '<li>',
-                                    //                 '<a class="_4zhc5 _iqaka" title="#{oImage.username}" href="/profile/#{oImage.user_id}" data-reactid=".0.1.0.0.0.2.1.2:$comment-17856951190001917.1">#{oImage.username}</a>',
-                                    //                 '<span>',
-                                    //                     '<span>#{oImage.content}</span>',
-                                    //                 '</span>',
-                                    //             '</li>'
-                                    //         ].join(''), oImage);
-                                    //     });
-                                    //     uHtml && that.listUl.append(uHtml);
-                                    // }),
+                                //     ].join(''), oImage);
+                                //     let sHtml_part4 = '';
+                                //     // 解析评论列表中的数据
+                                //     for (var ci = 0; ci < oImage['comments'].length; ci++){
+                                //         let dict = {'comment_user_username':oImage['comments'][ci]['username'],
+                                //                     'comment_user_id':oImage['comments'][ci]['user_id'],
+                                //                     'comment_content':oImage['comments'][ci]['content'] };
+                                //         sHtml_part4 += that.tpl([
+                                //         '    <li>',
+                                //             '    <a class="_4zhc5 _iqaka" title="#{comment_user_username}" href="/profile/#{comment_user_id}" data-reactid=".0.1.0.0.0.2.1.2:$comment-17856951190001917.1">#{comment_user_username}</a>',
+                                //             '    <span>',
+                                //             '        <span>#{comment_content}</span>',
+                                //            '     </span>',
+                                //          '   </li>',
+                                //         ].join(''), dict);
+                                //     }
+                                // let sHtml_part5 = that.tpl([
                                 '</ul>',
                                 '<section class="discuss-edit">',
                                     '<form>',
