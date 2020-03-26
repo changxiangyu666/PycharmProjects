@@ -10,7 +10,7 @@
             <header class="mod-hd">
                 <time class="time">{{image.created_date}}</time>
                 <a href="/profile/{{image.user.id}}" class="avatar">
-                    <img src="{{image.user.head_url}}?imageView/1/w/40/h/40">
+                    <img src="{{image.user.head_url}}?imageView/1/w/40/h/40" alt="头像">
                 </a>
                 <div class="profile-info">
                     <a title="{{image.user.username}}" href="/profile/{{image.user.id}}">{{image.user.username}}</a>
@@ -19,7 +19,7 @@
             <div class="mod-bd">
                 <div class="img-box">
                     <a href="/image/{{image.id}}">
-                        <img src="{{image.url}}">
+                        <img src="{{image.url}}" alt="图片">
                     </a>
                 </div>
             </div>
@@ -52,10 +52,10 @@
                         <div class="lianjie">
                             {% for fab in image.fabulous %}
                             {% if fab.user_id == current_user.id %}
-                            <div class="heart-box"><button class="icobutton icobutton--thumbs-up"><span class="after-heart"></span></button></div>
+                            <div class="heart-box"><button class="icobutton icobutton--thumbs-up" id={{image.id}}><span class="after-heart"></span></button></div>
                             {% endif %}
                             {% endfor %}
-                            <div class="heartBox"><button class="icobutton icobutton--thumbs-up"><span class="heart"></span></button></div>
+                            <div class="heartBox"><button class="icobutton icobutton--thumbs-up" id={{image.id}}><span class="heart"></span></button></div>
                             <span class="comsp">{{image.fabulous|length}}&nbsp;&nbsp;次赞</span>
                         </div>
                         <div class="lianjie">
@@ -106,5 +106,5 @@ window.cuid = {{current_user.id}};
 <script type="text/javascript" src="/static/js/index.js"></script>
 <script type="text/javascript" src="/static/js/indexDetail.js"></script>
 <script type="text/javascript" src="/static/js/mo.min.js"></script>
-<script type="text/javascript" src="/static/js/fabulous.js"></script>
+<script type="text/javascript" src="/static/js/indexFabulous.js"></script>
 {% endblock%}

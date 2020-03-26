@@ -4,7 +4,7 @@
  *
  * Licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
- * 
+ *
  * Copyright 2016, Codrops
  * http://www.codrops.com
  */
@@ -25,7 +25,7 @@ $(function() {
 		isIETouch = navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
 		return [].indexOf.call(window, 'ontouchstart') >= 0 || isIETouch;
 	}
-	
+
 	// taken from mo.js demos
 	let isIOS = isIOSSafari(),
 		clickHandler = isIOS || isTouch() ? 'touchstart' : 'click';
@@ -47,7 +47,7 @@ $(function() {
 		this.checked = true;
 
 		this.timeline = new mojs.Timeline();
-		
+
 		for(let i = 0, len = this.options.tweens.length; i < len; ++i) {
 			this.timeline.add(this.options.tweens[i]);
 		}
@@ -78,7 +78,6 @@ $(function() {
 	};
 
 	function init() {
-		let sImageId = window.imageId;
 		let bSubmit = false;
 		let el6 = document.querySelector('button.icobutton'), el6span = el6.querySelector('span');
 		new Animocon(el6, {
@@ -128,6 +127,7 @@ $(function() {
 			onCheck: function () {
 				bSubmit = true;
 				el6span.style.backgroundPosition="-58px 0";
+				let sImageId=el6.getAttribute('id');
 				$.ajax({
 					url: '/add/fabulous/',
 					type: 'post',
@@ -138,6 +138,7 @@ $(function() {
 			onUnCheck: function () {
 				bSubmit = true;
 				el6span.style.backgroundPosition="-23px 0px";
+				let sImageId=el6.getAttribute('id');
 				$.ajax({
 					url: '/delete/fabulous/',
 					type: 'post',
@@ -147,7 +148,7 @@ $(function() {
 			}
 		});
 	}
-	
+
 	init();
 
 });
