@@ -84,12 +84,12 @@ $(function () {
                                             for (var fi = 0; fi < oImage['fabulous'].length; fi++) {
                                                 if (oImage['fabulous'][fi]['user_id'] === cuid) {
                                                     sHtml_part2 += that.tpl([
-                                                        '<div class="heart-box"><button class="icobutton icobutton--thumbs-up"><span class="after-heart"></span></button></div>',
+                                                        '<div class="heart-box"><button class="icobutton icobutton--thumbs-up" value={{image.id}}><span class="after-heart"></span></button></div>',
                                                     ].join(''));
                                                 }
                                             }
                                     let sHtml_part3 = that.tpl([
-                                            '<div class="heartBox"><button class="icobutton icobutton--thumbs-up"><span class="heart"></span></button></div>',
+                                            '<div class="heartBox"><button class="icobutton icobutton--thumbs-up" value={{image.id}}><span class="heart"></span></button></div>',
                                             '<span class="comsp">#{fabulous_count}&nbsp;&nbsp;次赞</span>',
                                         '</div>',
                                         '<div class="lianjie">',
