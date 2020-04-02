@@ -10,7 +10,7 @@ $(function () {
         clearInterval(that.timeId);
         // 点击添加评论
         var bSubmit = false;
-        $('.more-info').on('click', function() {
+        $('.more-info').off().on('click', function() {
             let sImageId = this.value;
             let oCmtIpt = $('#'+sImageId+'');
             let oListDv = $('.'+sImageId+'');

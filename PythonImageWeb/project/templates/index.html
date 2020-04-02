@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}首页-{{current_user.username}}{% endblock%}
 {% block css %}/static/styles/pages/index.css{% endblock%}
-{% block extracss %}{% endblock %}
+{% block extracss %}<link rel="stylesheet" href="../static/styles/pages/heart.css" />{% endblock %}
 {% block content %}
 <div class="page-main clearfix">
     <div class="js-image-list clearfix">
@@ -57,6 +57,7 @@
                             {% endfor %}
                             <div class="heartBox"><button class="icobutton icobutton--thumbs-up" value={{image.id}}><span class="heart"></span></button></div>
                             <span class="comsp">{{image.fabulous|length}}&nbsp;&nbsp;次赞</span>
+                            <span id="add-num"><em>+1</em></span>
                         </div>
                         <div class="lianjie">
                             <a class="com" href="/image/{{image.id}}"></a>

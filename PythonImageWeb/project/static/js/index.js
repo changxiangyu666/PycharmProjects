@@ -84,14 +84,43 @@ $(function () {
                                             for (var fi = 0; fi < oImage['fabulous'].length; fi++) {
                                                 if (oImage['fabulous'][fi]['user_id'] === cuid) {
                                                     sHtml_part2 += that.tpl([
-                                                        '<div class="heart-box"><button class="icobutton icobutton--thumbs-up" value={{image.id}}><span class="after-heart"></span></button></div>',
-                                                    ].join(''));
+                                                        '<div class="heart-box"><button class="icobutton icobutton--thumbs-up" value=#{id} onmousedown="initheart()"><span class="after-heart"></span></button></div>',
+                                                    ].join(''), oImage);
                                                 }
                                             }
                                     let sHtml_part3 = that.tpl([
-                                            '<div class="heartBox"><button class="icobutton icobutton--thumbs-up" value={{image.id}}><span class="heart"></span></button></div>',
+                                            '<div class="heartBox"><button class="icobutton icobutton--thumbs-up" value=#{id} onmousedown="initheart()"><span class="heart"></span></button></div>',
                                             '<span class="comsp">#{fabulous_count}&nbsp;&nbsp;次赞</span>',
                                         '</div>',
+                                        '<script type="text/javascript">' +
+                                            function initheart() {
+                                                $(".icobutton").one('click', function () {
+                                                    let sImageId = this.value;
+                                                    //var text_box = $('.'+sImageId+'');
+                                                    if ($(this).children('span').attr("class") === ("heart")) {
+                                                        $(this).html("<span class=\"after-heart\"></span>");
+                                                        //text_box.show().html("<em class='add-animation'>+1</em>");
+                                                        $(".add-animation").addClass("hover");
+                                                        $.ajax({
+                                                            url: '/add/fabulous/',
+                                                            type: 'post',
+                                                            dataType: 'json',
+                                                            data: {image_id: sImageId},
+                                                        })
+                                                    } else {
+                                                        $(this).html("<span class=\"heart\"></span>");
+                                                        //text_box.show().html("<em class='add-animation'>-1</em>");
+                                                        $(".add-animation").removeClass("hover");
+                                                        $.ajax({
+                                                            url: '/delete/fabulous/',
+                                                            type: 'post',
+                                                            dataType: 'json',
+                                                            data: {image_id: sImageId},
+                                                        })
+                                                    }
+                                                });
+                                            },
+                                        '</script>',
                                         '<div class="lianjie">',
                                             '<a class="com" href="/image/#{id}"></a>',
                                             '<span class="comsp">#{comment_count}&nbsp;&nbsp;条评论</span>',
@@ -122,58 +151,57 @@ $(function () {
                                     '</form>',
                                     '<button class="more-info" value=#{id} onmousedown="fInitialize()">更多选项</button>',
                                     '<script type="text/javascript">' +
-                                    'function fInitialize() {\n' +
-                                    '        let that = this;\n' +
-                                    '        clearInterval(that.timeId);'+
-                                    '        // 点击添加评论\n' +
-                                    '        var bSubmit = false;\n' +
-                                    '        $(\'.more-info\').one(\'click\', function() {\n' +
-                                    '            let sImageId = this.value;\n' +
-                                    '            let oCmtIpt = $(\'#\'+sImageId+\'\');\n' +
-                                    '            let sId = oCmtIpt.attr("id");\n' +
-                                    '            let oListDv = $(\'.\'+sImageId+\'\');\n' +
-                                    '            let sCmt = $.trim(oCmtIpt.val());\n' +
-                                    '            // 评论为空不能提交\n' +
-                                    '            if (!sCmt) {\n' +
-                                    '                return alert(\'评论不能为空\');\n' +
-                                    '            }\n' +
-                                    '            // 上一个提交没结束之前，不再提交新的评论\n' +
-                                    '            if (bSubmit) {\n' +
-                                    '                return;\n' +
-                                    '            }\n' +
-                                    '            bSubmit = true;\n' +
-                                    '            $.ajax({\n' +
-                                    '                url: \'/add/comment/\',\n' +
-                                    '                type: \'post\',\n' +
-                                    '                dataType: \'json\',\n' +
-                                    '                data: {image_id: sImageId, content: sCmt}\n' +
-                                    '            }).done(function (oResult) {\n' +
-                                    '                if (oResult.code !== 0) {\n' +
-                                    '                    return alert(oResult.msg || \'提交失败，请重试\');\n' +
-                                    '                }\n' +
-                                    '                // 清空输入框\n' +
-                                    '                oCmtIpt.val(\'\');\n' +
-                                    '                // 渲染新的评论\n' +
-                                    '                var nHtml = [\n' +
-                                    '                    \'<li>\',\n' +
-                                    '                        \'<a class="_4zhc5 _iqaka" title="\', oResult.username, \'" href="/profile/\', oResult.user_id, \'">\', oResult.username, \'</a> \',\n' +
-                                    '                        \'<span><span>\', sCmt, \'</span></span>\',\n' +
-                                    '                    \'</li>\'].join(\'\');\n' +
-                                    '                oListDv.prepend(nHtml);\n' +
-                                    '            }).fail(function (oResult) {\n' +
-                                    '                alert(oResult.msg || \'提交失败，请重试!\');\n' +
-                                    '            }).always(function () {\n' +
-                                    '                bSubmit = false;\n' +
-                                    '            });\n' +
-                                                'oListDv.show().delay(2000).fadeOut();'+//2秒后弹窗消失
-                                    '        });\n' +
-                                        '$(function () {'+
-                                            'that.timeId=setInterval(function () {'+
-                                                //window.location.reload();//刷新当前页面
-                                                '$(\'#shuaxin\').load(location.href + " #shuaxin");'+//注意后面DIV的ID前面的空格，很重要！没有空格的话，会出双眼皮！（也可以使用类名）
-                                            '}, 2000);'+//2秒自动刷新
-                                        '})'+
-                                    '    }</script>',
+                                        function fInitialize() {
+                                            let that = this;
+                                            clearInterval(that.timeId);
+                                            // 点击添加评论
+                                            var bSubmit = false;
+                                            $('.more-info').off().one('click', function() {
+                                                let sImageId = this.value;
+                                                let oCmtIpt = $('#'+sImageId+'');
+                                                let oListDv = $('.'+sImageId+'');
+                                                let sCmt = $.trim(oCmtIpt.val());
+                                                // 评论为空不能提交
+                                                if (!sCmt) {
+                                                    return alert('评论不能为空');
+                                                }
+                                                // 上一个提交没结束之前，不再提交新的评论
+                                                if (bSubmit) {
+                                                    return;
+                                                }
+                                                bSubmit = true;
+                                                $.ajax({
+                                                    url: '/add/comment/',
+                                                    type: 'post',
+                                                    dataType: 'json',
+                                                    data: {image_id: sImageId, content: sCmt},
+                                                }).done(function (oResult) {
+                                                    if (oResult.code !== 0) {
+                                                        return alert(oResult.msg || '提交失败，请重试');
+                                                    }
+                                                    // 清空输入框
+                                                    oCmtIpt.val('');
+                                                    // 渲染新的评论
+                                                    var sHtml = [
+                                                        '<li>',
+                                                            '<a class="_4zhc5 _iqaka" title="', oResult.username, '" href="/profile/', oResult.user_id, '">', oResult.username, '</a> ',
+                                                            '<span><span>', sCmt, '</span></span>',
+                                                        '</li>'].join('');
+                                                    oListDv.prepend(sHtml);
+                                                }).fail(function (oResult) {
+                                                    alert(oResult.msg || '提交失败，请重试!');
+                                                }).always(function () {
+                                                    bSubmit = false;
+                                                });
+                                                oListDv.show().delay(2000).fadeOut();//2秒后弹窗消失
+                                                $(function () {
+                                                    that.timeId=setInterval(function () {
+                                                        $('#shuaxin').load(location.href + " #shuaxin");//注意后面DIV的ID前面的空格，很重要！没有空格的话，会出双眼皮！（也可以使用类名）
+                                                    }, 2000);//2秒自动刷新
+                                                });
+                                            });
+                                        },
+                                    '</script>',
                                 '</section>',
                             '</div>',
                         '</article>'
