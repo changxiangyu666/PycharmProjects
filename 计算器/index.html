@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>网页计算器</title>
+    <link rel="stylesheet" type="text/css" href="index.css"/>
+</head>
+<body>
+    <table class="calculator">
+        <tr>
+            <td colspan="4" align="center" >
+                <div class="head">计算器</div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4"><input name="jg" id="jg" type="text" placeholder="" value="0"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" id="" value="+" onclick="compute('+')" style="width: 60px"></td>
+            <td><input type="button" id="" value="-" onclick="compute('-')" style="width: 60px"></td>
+            <td><input type="button" id="" value="*" onclick="compute('*')" style="width: 60px;height:40px;padding-top: 12px;font-weight: bold;"></td>
+            <td><input type="button" id="" value="/" onclick="compute('/')" style="width: 86px"></td>
+        </tr>
+        <tr>
+            <td><input type="button" name="s1" id="s1" value=" 1 " onclick="num(1)"/></td>
+            <td><input type="button" name="s2" id="s2" value=" 2 "  onclick="num(2)"/></td>
+            <td><input type="button" name="s2" id="s2" value=" 3 " onclick="num(3)"/></td>
+            <td><input type="button" name="cls" value="←" onclick="backspace()" style="width: 86px;font-weight: bold;"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" name="s4" id="s4" value=" 4 " onclick="num(4)"/></td>
+            <td><input type="button" name="s5" id="s5" value=" 5 " onclick="num(5)"/></td>
+            <td><input type="button" name="s6" id="s6" value=" 6 " onclick="num(6)"/></td>
+            <td><input type="button" name="qc" id="qc" value="C" onclick="qc()" style="width: 86px"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" name="s7" id="s7" value=" 7 " onclick="num(7)"/></td>
+            <td><input type="button" name="s8" id="s8" value=" 8 " onclick="num(8)"/></td>
+            <td><input type="button" name="s9" id="s9" value=" 9 " onclick="num(9)" /></td>
+            <td><input type="button" name="deng" id="deng" value=" Enter " onclick="results()"/></td>
+        </tr>
+    </table>
+    <script type="text/javascript" src="index.js"></script>
+</body>
+</html>
