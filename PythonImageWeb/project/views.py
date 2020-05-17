@@ -37,6 +37,7 @@ def index_images(page, per_page):
     map['images'] = images
     return json.dumps(map)
 
+
 @app.route('/admin_index/')
 def index2():
     return render_template('admin/index.html')
@@ -45,23 +46,25 @@ def index2():
 @app.route('/admin_index/user/')
 def user():
     users = User.query.order_by(db.desc(User.id)).all()
-    return render_template('admin/user.html',users=users)
+    return render_template('admin/user.html', users=users)
+
 
 @app.route('/admin_index/comment/')
 def comment():
     comments = Comment.query.order_by(db.desc(Comment.id)).all()
-    return render_template('admin/comment.html',comments=comments)
+    return render_template('admin/comment.html', comments=comments)
+
 
 @app.route('/admin_index/fabulous/')
 def fabulous():
-    fabulous=Fabulous.query.order_by(db.desc(Fabulous.id)).all()
-    return render_template('admin/fabulous.html',fabulous=fabulous)
+    fabulous = Fabulous.query.order_by(db.desc(Fabulous.id)).all()
+    return render_template('admin/fabulous.html', fabulous=fabulous)
+
 
 @app.route('/admin_index/image/')
 def images():
     images = Image.query.order_by(db.desc(Image.id)).all()
     return render_template('admin/image.html', images=images)
-
 
 
 @app.route('/')
@@ -109,8 +112,19 @@ def profile(user_id):
     user = User.query.get(user_id)
     if user == None:
         return redirect('/')
-    paginate = Image.query.filter_by(user_id=user_id).order_by(db.desc(Image.id)).paginate(page=1, per_page=3)
-    return render_template('profile.html', user=user, has_next=paginate.has_next, images=paginate.items)
+    paginate= Image.query.filter_by(user_id=user_id).order_by(db.desc(Image.id)).paginate(page=1, per_page=3)
+
+    fabus = Fabulous.query.filter_by(user_id=user_id).all()
+    fabus_images = []
+    for image in fabus:
+        fabus_images.append(Image.query.filter_by(id=image.image_id).all())
+
+    f_images = []
+    for f in fabus_images:
+        for i in f:
+            f_images.append(i)
+    return render_template('profile.html', user=user, has_next=paginate.has_next, images=paginate.items,
+                           f_images=f_images)
 
 
 @app.route('/profile/images/<int:user_id>/<int:page>/<int:per_page>/')
@@ -121,6 +135,21 @@ def user_images(user_id, page, per_page):
     map = {'has_next': paginate.has_next}
     images = []
     for image in paginate.items:
+        imgvo = {'id': image.id, 'url': image.url, 'comment_count': len(image.comments),
+                 'fab_count': len(image.fabulous)}
+        images.append(imgvo)
+    map['images'] = images
+    return json.dumps(map)
+
+
+@app.route('/profile/images')
+def images_fabulous():
+    fabus = Fabulous.query.filter_by(user_id=126).all()
+    f_images = []
+    for fabu in fabus:
+        f_images.append(Image.query.filter_by(image_id=fabu.image_id))
+
+    for image in f_images:
         imgvo = {'id': image.id, 'url': image.url, 'comment_count': len(image.comments),
                  'fab_count': len(image.fabulous)}
         images.append(imgvo)
@@ -274,7 +303,7 @@ def upload():
         file_ext = file.filename.rsplit('.', 1)[1].strip().lower()
     if file_ext in app.config['ALLOWED_EXT']:
         file_name = str(uuid.uuid1()).replace('-', '') + '.' + file_ext
-        #url = qiniu_upload_file(file, file_name)
+        # url = qiniu_upload_file(file, file_name)
         url = save_to_local(file, file_name)
         if url != None:
             db.session.add(Image(url, current_user.id))
@@ -292,7 +321,7 @@ def upload_avatar():
         file_ext = file.filename.rsplit('.', 1)[1].strip().lower()
     if file_ext in app.config['ALLOWED_EXT']:
         file_name = str(uuid.uuid1()).replace('-', '') + '.' + file_ext
-        #url = qiniu_upload_file(file, file_name)
+        # url = qiniu_upload_file(file, file_name)
         url = save_to_local(file, file_name)
         if url != None:
             User.query.filter_by(id=current_user.id).update({'head_url': url})
@@ -320,6 +349,7 @@ def delete_img(image_id):
 
     return redirect('/profile/%d' % current_user.id)
 
+
 @app.route('/api/fabulou/update', methods={'post'})
 def fabulouUpdate():
     fid = int(request.values['id'])
@@ -342,6 +372,7 @@ def fabulouAdd():
     db.session.commit()
     return json.dumps({"code": 0, "id": fabulous.id})
 
+
 @app.route('/delete/fabulou/<int:id>', methods={"post"})
 def deleteFabulou(id):
     fabu = Fabulous.query.filter_by(id=id).first()
@@ -350,13 +381,15 @@ def deleteFabulou(id):
     db.session.delete(fabu)
     db.session.commit()
     return redirect('http://127.0.0.1:8001/admin_index/fabulous/')
-        # json.dumps({"code": 0, "type": "deleteFabulou", "id": id})
+    # json.dumps({"code": 0, "type": "deleteFabulou", "id": id})
+
 
 @app.route('/update/fabulou/<int:id>/<int:image_id>/<int:user_id>', methods={"post"})
-def updateFabulou(id,image_id,user_id):
+def updateFabulou(id, image_id, user_id):
     fabu = Fabulous.query.filter_by(id=id).first()
     if fabu == None:
-        return json.dumps({"code": 1, "type": "updateFabulou error id 不存在", "id": id, "image_id": image_id, "user_id": user_id})
+        return json.dumps(
+            {"code": 1, "type": "updateFabulou error id 不存在", "id": id, "image_id": image_id, "user_id": user_id})
     fabu = Fabulous.query.filter_by(id=id).first()
     fabu.image_id = image_id
     fabu.user_id = user_id
@@ -374,6 +407,7 @@ def deleteImage(id):
     db.session.commit()
     return redirect('http://127.0.0.1:8001/admin_index/image/')
 
+
 @app.route('/api/image/add', methods={'post'})
 def imageAdd():
     url = request.values['url']
@@ -382,6 +416,7 @@ def imageAdd():
     db.session.add(image)
     db.session.commit()
     return json.dumps({"code": 0, "id": image.id})
+
 
 @app.route('/api/image/update', methods={'post'})
 def imageUpdate():
@@ -405,15 +440,17 @@ def deleteComment(id):
     db.session.commit()
     return redirect('http://127.0.0.1:8001/admin_index/comment/')
 
+
 @app.route('/api/comment/add', methods={'post'})
 def commentAdd():
     content = request.values['content']
     image_id = int(request.values['image_id'])
     user_id = int(request.values['user_id'])
-    comment = Comment(content,image_id, user_id)
+    comment = Comment(content, image_id, user_id)
     db.session.add(comment)
     db.session.commit()
     return json.dumps({"code": 0, "id": comment.id})
+
 
 @app.route('/api/comment/update', methods={'post'})
 def commentUpdate():
@@ -439,6 +476,7 @@ def deleteUser(id):
     db.session.commit()
     return redirect('http://127.0.0.1:8001/admin_index/user/')
 
+
 @app.route('/api/user/add', methods={'post'})
 def userAdd():
     username = request.values['username']
@@ -453,6 +491,7 @@ def userAdd():
     db.session.add(user)
     db.session.commit()
     return json.dumps({"code": 0, "id": user.id})
+
 
 @app.route('/api/user/update', methods={'post'})
 def userUpdate():
