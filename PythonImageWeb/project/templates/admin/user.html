@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>后台管理</title>
+    <link rel="stylesheet" href="../../static/admin/css/font-awesome.css">
+    <link rel="stylesheet" href="../../static/admin/css/style.css">
+
+<body>
+
+<nav class="menu-wrap">
+    <div style="margin: 18px 10px">
+        <img src="../../static/images/res/cxy.png"/>
+    </div>
+    <div class="menu">
+        <ul>
+            <li>
+                <a href="">
+                    <i class="fa fa-home fa-lg"></i>
+                    <span class="nav-text">首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin_index/user/">
+                    <i class="fa fa-user fa-lg"></i>
+                    <span class="nav-text">用户管理</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin_index/comment/">
+                    <i class="fa fa-envelope-o fa-lg"></i>
+                    <span class="nav-text">评论管理</span>
+                </a>
+            </li>
+            <li class="darkerlishadow">
+                <a href="/admin_index/fabulous/">
+                    <i class="fa fa-heart-o fa-lg"></i>
+                    <span class="nav-text">点赞管理</span>
+                </a>
+            </li>
+
+            <li class="darkerli">
+                <a href="/admin_index/image/">
+                    <i class="fa fa-picture-o fa-lg"></i>
+                    <span class="nav-text">图片管理</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div style="text-align:center;margin:50px 0 0 70px; font:normal 14px/24px 'MicroSoft YaHei';">
+<h2>用户管理</h2><hr style="margin: 20px 0;"/>
+    <table class='table11_6' style="margin: 0 auto">
+        <thead>
+        <tr>
+            <th>用户编号</th>
+            <th>用户账号</th>
+            <th>用户密码</th>
+            <th>salt</th>
+            <th>头像连接</th>
+            <th>操作
+                <a href="javascript:void(0)" class="btn_login" id="add">添加</a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>
+                    <input type="text" id="username" value="{{ user.username }}" required="required" placeholder="请添加用户账号"
+                           style="height: 30px;padding: 0 10px;border-radius: 5px;"/>
+                </td>
+                <td>
+                    <input type="text" id="password" value="{{ user.password }}" required="required" placeholder="请添加用户密码"
+                           style="height: 30px;padding: 0 10px;border-radius: 5px;"/>
+                </td>
+                <td>
+                    {{ user.salt }}
+                </td>
+                <td>
+                    <input type="text" id="hUrl" value="{{ user.head_url }}" required="required" placeholder="请添加用户头像连接"
+                           style="height: 30px;padding: 0 10px;border-radius: 5px;"/>
+                </td>
+                <td>
+                    <form method="post" action="/delete/user/{{ user.id }}" enctype="multipart/form-data">
+                        <a href="javascript:delete(0)" class="btn_login" onclick="this.parentNode.submit()">删除</a>
+                    </form>
+                    <a href="javascript:" class="btn_login" onclick="edit({{ user.id }})">修改</a>
+                    <script>
+                        function edit(id) {
+                            var username = document.getElementById("username").value;
+                            var password = document.getElementById("password").value;
+                            $.ajax({
+                                url: '/api/user/update',
+                                type: 'post',
+                                dataType: 'json',
+                                data: {"id": id, "username": username, "password": password}
+                            }).done(function (oResult) {
+                                alert(oResult.msg || '修改成功');
+                            }).fail(function (oResult) {
+                                alert(oResult.msg || '修改失败，请重试!');
+                            });
+                        }
+                    </script>
+                </td>
+            </tr>
+        {% endfor %}
+        <!-- 弹出登录小窗口 -->
+            <div class="mini_login" id="mini_login">
+                <!-- 表单 -->
+                <form action="" method="post">
+                    <div class="item firstLine" id="firstLine">
+                        <span class="login_title">添加内容</span>
+                        <span class="login_close" id="close_minilogin">X</span>
+                    </div>
+                    <div class="item" style="margin-top: 30px;">
+                        <label>*用户账号：</label>
+                        <input type="text" placeholder="请添加用户账号" value="" id="un" required="required"/>
+                    </div>
+                    <div class="item">
+                        <label>*用户密码：</label>
+                        <input type="text" placeholder="请添加用户密码" value="" id="up" required="required"/>
+                    </div>
+                    <div class="item">
+                        <a href="javascript:void(0)" class="btn_login" id="addUser">保存</a>
+                    </div>
+                </form>
+            </div>
+            <!-- 遮罩层 -->
+            <div class="cover"></div>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript" src="../../static/js/jquery.js"></script>
+<script type="text/javascript" src="../../static/admin/js/addUser.js"></script>
+</body>
+</html>

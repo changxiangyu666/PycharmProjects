@@ -37,6 +37,32 @@ def index_images(page, per_page):
     map['images'] = images
     return json.dumps(map)
 
+@app.route('/admin_index/')
+def index2():
+    return render_template('admin/index.html')
+
+
+@app.route('/admin_index/user/')
+def user():
+    users = User.query.order_by(db.desc(User.id)).all()
+    return render_template('admin/user.html',users=users)
+
+@app.route('/admin_index/comment/')
+def comment():
+    comments = Comment.query.order_by(db.desc(Comment.id)).all()
+    return render_template('admin/comment.html',comments=comments)
+
+@app.route('/admin_index/fabulous/')
+def fabulous():
+    fabulous=Fabulous.query.order_by(db.desc(Fabulous.id)).all()
+    return render_template('admin/fabulous.html',fabulous=fabulous)
+
+@app.route('/admin_index/image/')
+def images():
+    images = Image.query.order_by(db.desc(Image.id)).all()
+    return render_template('admin/image.html', images=images)
+
+
 
 @app.route('/')
 def index():
@@ -293,3 +319,156 @@ def delete_img(image_id):
     db.session.commit()
 
     return redirect('/profile/%d' % current_user.id)
+
+@app.route('/api/fabulou/update', methods={'post'})
+def fabulouUpdate():
+    fid = int(request.values['id'])
+    imageId = int(request.values['image_id'])
+    userId = int(request.values['user_id'])
+    fabu = Fabulous.query.filter_by(id=fid).first()
+    fabu.image_id = imageId
+    fabu.user_id = userId
+    db.session.add(fabu)
+    db.session.commit()
+    return json.dumps({"code": 0, "id": fid, "image_id": imageId, "user_id": userId})
+
+
+@app.route('/api/fabulou/add', methods={'post'})
+def fabulouAdd():
+    image_id = int(request.values['image_id'])
+    user_id = int(request.values['user_id'])
+    fabulous = Fabulous(image_id, user_id)
+    db.session.add(fabulous)
+    db.session.commit()
+    return json.dumps({"code": 0, "id": fabulous.id})
+
+@app.route('/delete/fabulou/<int:id>', methods={"post"})
+def deleteFabulou(id):
+    fabu = Fabulous.query.filter_by(id=id).first()
+    if fabu == None:
+        return json.dumps({"code": 0, "type": "deleteFabulou", "id": id})
+    db.session.delete(fabu)
+    db.session.commit()
+    return redirect('http://127.0.0.1:8001/admin_index/fabulous/')
+        # json.dumps({"code": 0, "type": "deleteFabulou", "id": id})
+
+@app.route('/update/fabulou/<int:id>/<int:image_id>/<int:user_id>', methods={"post"})
+def updateFabulou(id,image_id,user_id):
+    fabu = Fabulous.query.filter_by(id=id).first()
+    if fabu == None:
+        return json.dumps({"code": 1, "type": "updateFabulou error id 不存在", "id": id, "image_id": image_id, "user_id": user_id})
+    fabu = Fabulous.query.filter_by(id=id).first()
+    fabu.image_id = image_id
+    fabu.user_id = user_id
+    db.session.add(fabu)
+    db.session.commit()
+    return redirect('http://127.0.0.1:8001/admin_index/fabulous/')
+
+
+@app.route('/delete/image/<int:id>', methods={"post"})
+def deleteImage(id):
+    image = Image.query.filter_by(id=id).first()
+    if image == None:
+        return json.dumps({"code": 0, "type": "deleteImage", "id": id})
+    db.session.delete(image)
+    db.session.commit()
+    return redirect('http://127.0.0.1:8001/admin_index/image/')
+
+@app.route('/api/image/add', methods={'post'})
+def imageAdd():
+    url = request.values['url']
+    user_id = int(request.values['user_id'])
+    image = Image(url, user_id)
+    db.session.add(image)
+    db.session.commit()
+    return json.dumps({"code": 0, "id": image.id})
+
+@app.route('/api/image/update', methods={'post'})
+def imageUpdate():
+    id = int(request.values['id'])
+    url = request.values['url']
+    userId = int(request.values['user_id'])
+    image = Image.query.filter_by(id=id).first()
+    image.url = url
+    image.user_id = userId
+    db.session.add(image)
+    db.session.commit()
+    return json.dumps({"code": 0, "id": id, "url": url, "user_id": userId})
+
+
+@app.route('/delete/comment/<int:id>', methods={"post"})
+def deleteComment(id):
+    comment = Comment.query.filter_by(id=id).first()
+    if comment == None:
+        return json.dumps({"code": 0, "type": "deleteComment", "id": id})
+    db.session.delete(comment)
+    db.session.commit()
+    return redirect('http://127.0.0.1:8001/admin_index/comment/')
+
+@app.route('/api/comment/add', methods={'post'})
+def commentAdd():
+    content = request.values['content']
+    image_id = int(request.values['image_id'])
+    user_id = int(request.values['user_id'])
+    comment = Comment(content,image_id, user_id)
+    db.session.add(comment)
+    db.session.commit()
+    return json.dumps({"code": 0, "id": comment.id})
+
+@app.route('/api/comment/update', methods={'post'})
+def commentUpdate():
+    id = int(request.values['id'])
+    content = request.values['content']
+    imageId = int(request.values['image_id'])
+    userId = int(request.values['user_id'])
+    comment = Comment.query.filter_by(id=id).first()
+    comment.content = content
+    comment.image_id = imageId
+    comment.user_id = userId
+    db.session.add(comment)
+    db.session.commit()
+    return json.dumps({"code": 0, "id": id, "content": content, "image_id": imageId, "user_id": userId})
+
+
+@app.route('/delete/user/<int:id>', methods={"post"})
+def deleteUser(id):
+    user = User.query.filter_by(id=id).first()
+    if user == None:
+        return json.dumps({"code": 0, "type": "deleteUser", "id": id})
+    db.session.delete(user)
+    db.session.commit()
+    return redirect('http://127.0.0.1:8001/admin_index/user/')
+
+@app.route('/api/user/add', methods={'post'})
+def userAdd():
+    username = request.values['username']
+    password = request.values['password']
+
+    salt = ''.join(random.sample('0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 10))
+    m = hashlib.md5()
+    m.update(password + salt)
+    password = m.hexdigest()
+
+    user = User(username, password, salt)
+    db.session.add(user)
+    db.session.commit()
+    return json.dumps({"code": 0, "id": user.id})
+
+@app.route('/api/user/update', methods={'post'})
+def userUpdate():
+    id = int(request.values['id'])
+    username = request.values['username']
+    password = request.values['password']
+    user = User.query.filter_by(id=id).first()
+    user.username = username
+
+    salt = ''.join(random.sample('0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 10))
+    m = hashlib.md5()
+    m.update(password + salt)
+    password = m.hexdigest()
+
+    user.password = password
+    user.salt = salt
+    db.session.add(user)
+    db.session.commit()
+    return json.dumps({"code": 0, "id": id, "username": username, "password": password})
